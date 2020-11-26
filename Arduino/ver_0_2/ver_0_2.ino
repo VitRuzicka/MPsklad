@@ -86,6 +86,14 @@ AccelStepper osaX(1, X_STEP_PIN,X_DIR_PIN);
 AccelStepper osaY(1, Y_STEP_PIN,Y_DIR_PIN);
 AccelStepper osaZ(1, Z_STEP_PIN,Z_DIR_PIN);
 
+////////  KOMUNIKACE
+#define MAX_BUF 64  //maximální velikost bufferu pro přijímání dat
+int data;           //pocet dat v bufferu
+char buffer[MAX_BUF];
+
+
+
+
 
 void setup(){
 //disable piny
@@ -107,11 +115,79 @@ pinMode(X_MIN_PIN, INPUT); //zvážit použítí INPUT_PULLUP, záleží na typu
 pinMode(Y_MIN_PIN, INPUT);
 pinMode(Z_MIN_PIN, INPUT);
 Serial.begin(115200);
+data = 0;
 }
 
+
+
+
+
 void loop(){
- homeX();
- delay(10000); 
+// homeX();
+ //delay(10000);
+
+
+if(Serial.available() > 0){
+  char c =  Serial.read();
+
+  if(data < MAX_BUF){ //overeni jestli se data vejdou do bufferu
+    buffer[data++]=c;    //pridani dat do bufferu na dalsi pozici
+  }
+  if(c == '\n'){
+    Serial.print(F("\r\n"));   //return - může být nahrazeno za OK, když bude spolupracovat python
+    buffer[data]=0;             //string v bufferu musí končit nulovým charakterem
+    zpracovaniPrikazu();        //ehm vytvorit
+  }
+}
+  
+}
+
+
+
+
+
+
+
+
+/////////////// OBECNÉ FUNKCE
+float ziskejCislo(char pismeno,float hdn) {   //kdyz je po argumentu pismeno nejake cislo, vrátí ho, když ne, vrátí hodnotu hdn
+  char *ptr=buffer;  // zacne na zacatku bufferu
+  while((long)ptr > 1 && (*ptr) && (long)ptr < (long)buffer+data) {  //dojdi na konec
+    if(*ptr==pismeno) {  // pokud narazis na pismeno vrat hodnotu po nem
+      return atof(ptr+1);  // prevede nasledujici znaky na float
+    }
+    ptr=strchr(ptr,' ')+1;  //preskoci mezeru
+  }
+  return hdn;  //konec, vrati vychozi hodnotu
+}
+
+void zpracovaniPrikazu(){
+  int gcode = ziskejCislo('G', -1);  //získá gcode
+  switch(gcode){                     //porovná gcode s možnými případy
+      case 0:
+      //absolutní pohyb --napsat
+      case 1:
+      //relativní pohyb
+      case 2:
+      //pohyb do konkrétního políčka
+      case 28:
+      //home 
+      case 18:
+      //vypnutí proudu do motorů (změna oproti M18)
+      
+    
+  }
+}
+
+void vypnutiMOT(){
+  osaX.enableOutputs();
+  osaY.enableOutputs();
+  osaZ.enableOutputs();
+}
+void zapnutiMOT(){
+  osaX.disableOutputs();
+  osaY.disableOutputs();
+  osaZ.disableOutputs();
 }
 
 
@@ -252,14 +328,4 @@ void moveToZ(float vzdalenost){
   {osaZ.run();}
   }
    
-}
-void vypnutiMOT(){
-  osaX.enableOutputs();
-  osaY.enableOutputs();
-  osaZ.enableOutputs();
-}
-void zapnutiMOT(){
-  osaX.disableOutputs();
-  osaY.disableOutputs();
-  osaZ.disableOutputs();
 }
