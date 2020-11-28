@@ -29,18 +29,18 @@
 
 //globalni promenne
 #define akcelerace 1000  //výchozí akcelerace a rychlost pro celý systém
-#define rychlost 1000
-#define uvolneniStopu 50 ///vzdálenost , kterou ujede aby neležel na endstopu
+#define rychlost 800
+#define uvolneniStopu 30 ///vzdálenost , kterou ujede aby neležel na endstopu
 #define diag             //vypisuje diagnosticke zpravy do serioveho monitoru
 
 
 #define delkaX 1000  //nastaveni delky osy v mm
-#define delkaY 300
+#define delkaY 190
 #define delkaZ 150
 
-#define stoupaniX 1280   //mm na milimetr
-#define stoupaniY 6400   //6400 by melo odpovidat T8x8 trapezu (na 200 krokách 400 kroku/mm, na 3200 krocich 6400...
-#define stoupaniZ 1280    //taky remen
+#define stoupaniX 80   //mm na milimetr
+#define stoupaniY 80   //6400 by melo odpovidat T8x8 trapezu (na 200 krokách 400 kroku/mm, na 3200 krocich 6400...
+#define stoupaniZ 400    //taky remen
 
 #define logEndstopX true //obrácení smyslu endstopu
 #define logEndstopY true 
@@ -55,8 +55,8 @@ byte ishomeX = false; //bez toho neví kde je
 byte ishomeY = false;
 byte ishomeZ = false;
 
-byte xMotorDir = 1;
-byte yMotorDir = 1; //pro opačný směr nahraďte za -1
+byte xMotorDir = -1;
+byte yMotorDir = -1; //pro opačný směr nahraďte za -1
 byte zMotorDir = 1;
 
 #define X_STEP_PIN         54
@@ -123,8 +123,11 @@ data = 0;
 
 
 void loop(){
-// homeX();
- //delay(10000);
+ homeY();
+ homeZ();
+ homeX();
+ 
+ delay(5000);
 
 
 if(Serial.available() > 0){
@@ -174,7 +177,8 @@ void zpracovaniPrikazu(){
       //home 
       case 18:
       //vypnutí proudu do motorů (změna oproti M18)
-      
+      default:
+      break;;
     
   }
 }
@@ -200,8 +204,12 @@ void homeX(){
   {osaX.run();}
   osaX.stop();
   osaX.setCurrentPosition(0);
+  osaX.setAcceleration(100);
+  osaX.setMaxSpeed(100);
   osaX.move(uvolneniStopu);
   osaX.runToPosition();
+  osaX.setAcceleration(akcelerace);
+  osaX.setMaxSpeed(rychlost);
   ishomeX = 1;
   #ifdef diag
   Serial.println(F("Osa X home"));
@@ -246,8 +254,12 @@ void homeY(){
   {osaY.run();}
   osaY.stop();
   osaY.setCurrentPosition(0);
+  osaY.setAcceleration(100);
+  osaY.setMaxSpeed(100);
   osaY.move(uvolneniStopu);
   osaY.runToPosition();
+  osaY.setAcceleration(akcelerace);
+  osaY.setMaxSpeed(rychlost);
   ishomeY = 1;
   #ifdef diag
   Serial.println(F("Osa Y home"));
@@ -292,8 +304,12 @@ void homeZ(){
   {osaZ.run();}
   osaZ.stop();
   osaZ.setCurrentPosition(0);
+  osaZ.setAcceleration(100);
+  osaZ.setMaxSpeed(100);
   osaZ.move(uvolneniStopu);
   osaZ.runToPosition();
+  osaZ.setAcceleration(akcelerace);
+  osaZ.setMaxSpeed(rychlost);
   ishomeZ = 1;
   #ifdef diag
   Serial.println(F("Osa Z home"));
