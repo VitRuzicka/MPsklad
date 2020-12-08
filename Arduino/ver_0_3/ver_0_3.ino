@@ -34,9 +34,9 @@
 #define diag             //vypisuje diagnosticke zpravy do serioveho monitoru
 
 
-#define delkaX 1000UL  //nastaveni delky osy v mm
-#define delkaY 190UL
-#define delkaZ 150UL
+#define delkaX 1000L  //nastaveni delky osy v mm
+#define delkaY 190L
+#define delkaZ 150L
 
 #define stoupaniX 80   //mm na milimetr
 #define stoupaniY 80   //6400 by melo odpovidat T8x8 trapezu (na 200 krokách 400 kroku/mm, na 3200 krocich 6400...
