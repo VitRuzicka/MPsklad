@@ -29,14 +29,14 @@
 
 //globalni promenne
 #define akcelerace 1000  //výchozí akcelerace a rychlost pro celý systém
-#define rychlost 800
+#define rychlost 700
 #define uvolneniStopu 30 ///vzdálenost , kterou ujede aby neležel na endstopu
 #define diag             //vypisuje diagnosticke zpravy do serioveho monitoru
 
 
-#define delkaX 1000  //nastaveni delky osy v mm
-#define delkaY 190
-#define delkaZ 150
+#define delkaX 1000L  //nastaveni delky osy v mm
+#define delkaY 190L
+#define delkaZ 150L
 
 #define stoupaniX 80   //mm na milimetr
 #define stoupaniY 80   //6400 by melo odpovidat T8x8 trapezu (na 200 krokách 400 kroku/mm, na 3200 krocich 6400...
@@ -57,7 +57,7 @@ byte ishomeZ = false;
 
 byte xMotorDir = 1;
 byte yMotorDir = 1; //pro opačný směr nahraďte za -1
-byte zMotorDir = -1;
+byte zMotorDir = 1;
 
 #define X_STEP_PIN         54
 #define X_DIR_PIN          55
@@ -123,11 +123,11 @@ data = 0;
 
 
 void loop(){
- homeY();
- homeZ();
- homeX();
+ //homeY();
+ //homeZ();
+ //homeX();
  
- delay(5000);
+ //delay(5000);
 
 
 if(Serial.available() > 0){
@@ -135,11 +135,13 @@ if(Serial.available() > 0){
 
   if(data < MAX_BUF){ //overeni jestli se data vejdou do bufferu
     buffer[data++]=c;    //pridani dat do bufferu na dalsi pozici
+    Serial.println("pripisuji znak");
   }
   if(c == '\n'){
-    Serial.print(F("\r\n"));   //return - může být nahrazeno za OK, když bude spolupracovat python
+    //Serial.print(F("\r\n"));   //return - může být nahrazeno za OK, když bude spolupracovat python
     buffer[data]=0;             //string v bufferu musí končit nulovým charakterem
     zpracovaniPrikazu();        //ehm vytvorit
+     data = 0;
   }
 }
   
@@ -165,33 +167,40 @@ float ziskejCislo(char pismeno,float hdn) {   //kdyz je po argumentu pismeno nej
 }
 
 void zpracovaniPrikazu(){
+  Serial.println(buffer);
   int gcode = ziskejCislo('G', -1);  //získá gcode
   switch(gcode){                     //porovná gcode s možnými případy
       case 0:
-      moveX(ziskejCislo('X',0));
+      zapnutiMOT();
+      moveX(ziskejCislo('X',0));  //ziskejCislo('X',0)
       moveY(ziskejCislo('Y',0));
       moveZ(ziskejCislo('Z',0));
       break;
       case 1:
+      zapnutiMOT();
       moveToX(ziskejCislo('X',osaX.currentPosition()));
       moveToY(ziskejCislo('Y',osaY.currentPosition()));
       moveToZ(ziskejCislo('Z',osaZ.currentPosition()));
       break;
       case 2:
-      //dodelat
+      Serial.println(F("funguju"));
+      break;
       case 28:
+      zapnutiMOT();
       homeY();
       homeZ();
       homeX();
       break;
       case 18:
-      zapnutiMOT();
+      vypnutiMOT();
       break;
       
       default:
       break;;
     
   }
+
+ 
 }
 
 void vypnutiMOT(){
@@ -218,8 +227,8 @@ void homeX(){
   {osaX.run();}
   osaX.stop();
   osaX.setCurrentPosition(0);
-  osaX.setAcceleration(100);
-  osaX.setMaxSpeed(100);
+  osaX.setAcceleration(500);
+  osaX.setMaxSpeed(200);
   osaX.move(xMotorDir*uvolneniStopu);
   osaX.runToPosition();
   osaX.setAcceleration(akcelerace);
@@ -232,6 +241,8 @@ void homeX(){
 void moveX(float vzdalenost){
   vzdalenost = stoupaniX*vzdalenost;
   osaX.move(xMotorDir*vzdalenost);
+  while(osaX.currentPosition() != osaX.targetPosition())  
+  {osaX.run();}
   if(osaX.targetPosition() > delkaX){ //pokud chce jet za hranice osy
   #ifdef diag
   Serial.println(F("Chyba: konec osy"));
@@ -268,8 +279,8 @@ void homeY(){
   {osaY.run();}
   osaY.stop();
   osaY.setCurrentPosition(0);
-  osaY.setAcceleration(100);
-  osaY.setMaxSpeed(100);
+  osaY.setAcceleration(500);
+  osaY.setMaxSpeed(200);
   osaY.move(yMotorDir*uvolneniStopu);
   osaY.runToPosition();
   osaY.setAcceleration(akcelerace);
@@ -318,8 +329,8 @@ void homeZ(){
   {osaZ.run();}
   osaZ.stop();
   osaZ.setCurrentPosition(0);
-  osaZ.setAcceleration(100);
-  osaZ.setMaxSpeed(100);
+  osaZ.setAcceleration(500);
+  osaZ.setMaxSpeed(200);
   osaZ.move(zMotorDir*uvolneniStopu);
   osaZ.runToPosition();
   osaZ.setAcceleration(akcelerace);
