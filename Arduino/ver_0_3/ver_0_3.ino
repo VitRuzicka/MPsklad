@@ -34,9 +34,9 @@
 #define diag             //vypisuje diagnosticke zpravy do serioveho monitoru
 
 
-#define delkaX 1000L  //nastaveni delky osy v mm
-#define delkaY 190L
-#define delkaZ 150L
+long delkaX = 1000;  //nastaveni delky osy v mm
+long delkaY = 190;
+long delkaZ = 150;
 
 #define stoupaniX 80   //mm na milimetr
 #define stoupaniY 80   //6400 by melo odpovidat T8x8 trapezu (na 200 krokách 400 kroku/mm, na 3200 krocich 6400...
@@ -51,7 +51,7 @@ int poziceY[] = {};  //hloubka skladu, naložení skladu,
 int poziceZ[] = {};  //10 pozic
 
 
-byte ishomeX = false; //bez toho neví kde je
+byte ishomeX = false; //bez toho neví kde je, ještě není používáno
 byte ishomeY = false;
 byte ishomeZ = false;
 
