@@ -243,7 +243,7 @@ void moveX(float vzdalenost){
   osaX.move(xMotorDir*vzdalenost);
   while(osaX.currentPosition() != osaX.targetPosition())  
   {osaX.run();}
-  if(osaX.targetPosition() > delkaX){ //pokud chce jet za hranice osy
+  if(osaX.targetPosition()/stoupaniX > delkaX){ //pokud chce jet za hranice osy
   #ifdef diag
   Serial.println(F("Chyba: konec osy"));
   #endif
@@ -258,7 +258,7 @@ void moveX(float vzdalenost){
 void moveToX(float vzdalenost){
     vzdalenost = stoupaniX*vzdalenost;
   osaX.moveTo(xMotorDir*vzdalenost);
-  if(osaX.targetPosition() > delkaX){ //pokud chce jet za hranice osy
+  if(osaX.targetPosition()/stoupaniX > delkaX){ //pokud chce jet za hranice osy
   #ifdef diag
   Serial.println(F("Chyba: konec osy"));
   #endif
@@ -293,7 +293,7 @@ void homeY(){
 void moveY(float vzdalenost){
   vzdalenost = stoupaniY*vzdalenost;
   osaY.move(yMotorDir*vzdalenost);
-  if(osaY.targetPosition() > delkaY){ //pokud chce jet za hranice osy
+  if(osaY.targetPosition()/stoupaniY > delkaY){ //pokud chce jet za hranice osy
   #ifdef diag
   Serial.println(F("Chyba: konec osy"));
   #endif
@@ -308,7 +308,7 @@ void moveY(float vzdalenost){
 void moveToY(float vzdalenost){
     vzdalenost = stoupaniY*vzdalenost;
   osaY.moveTo(yMotorDir*vzdalenost);
-  if(osaY.targetPosition() > delkaY){ //pokud chce jet za hranice osy
+  if(osaY.targetPosition()/stoupaniY > delkaY){ //pokud chce jet za hranice osy
   #ifdef diag
   Serial.println(F("Chyba: konec osy"));
   #endif
@@ -343,7 +343,7 @@ void homeZ(){
 void moveZ(float vzdalenost){
   vzdalenost = stoupaniZ*vzdalenost;
   osaZ.move(zMotorDir*vzdalenost);
-  if(osaZ.targetPosition() > delkaZ){ //pokud chce jet za hranice osy
+  if(osaZ.targetPosition()/stoupaniZ > delkaZ){ //pokud chce jet za hranice osy
   #ifdef diag
   Serial.println(F("Chyba: konec osy"));
   #endif
@@ -358,7 +358,7 @@ void moveZ(float vzdalenost){
 void moveToZ(float vzdalenost){
     vzdalenost = stoupaniZ*vzdalenost;
   osaZ.moveTo(zMotorDir*vzdalenost);
-  if(osaZ.targetPosition() > delkaZ){ //pokud chce jet za hranice osy
+  if(osaZ.targetPosition()/stoupaniZ > delkaZ){ //pokud chce jet za hranice osy
   #ifdef diag
   Serial.println(F("Chyba: konec osy"));
   #endif
