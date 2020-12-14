@@ -55,9 +55,9 @@ byte ishomeX = false; //bez toho neví kde je
 byte ishomeY = false;
 byte ishomeZ = false;
 
-byte xMotorDir = 1;
-byte yMotorDir = 1; //pro opačný směr nahraďte za -1
-byte zMotorDir = 1;
+int xMotorDir = 1;
+int yMotorDir = 1; //pro opačný směr nahraďte za -1
+int zMotorDir = 1;
 
 #define X_STEP_PIN         54
 #define X_DIR_PIN          55
