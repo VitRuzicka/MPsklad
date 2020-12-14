@@ -34,13 +34,13 @@
 #define diag             //vypisuje diagnosticke zpravy do serioveho monitoru
 
 
-long delkaX = 1000;  //nastaveni delky osy v mm
+long delkaX = 1210;  //nastaveni delky osy v mm
 long delkaY = 190;
-long delkaZ = 150;
+long delkaZ = 180;
 
-#define stoupaniX 80   //mm na milimetr
-#define stoupaniY 80   //6400 by melo odpovidat T8x8 trapezu (na 200 krokách 400 kroku/mm, na 3200 krocich 6400...
-#define stoupaniZ 400    //taky remen
+#define stoupaniX 4   //mm na milimetr
+#define stoupaniY 4   //6400 by melo odpovidat T8x8 trapezu (na 200 krokách 400 kroku/mm, na 3200 krocich 6400...
+#define stoupaniZ 25    //taky remen
 
 #define logEndstopX true //obrácení smyslu endstopu
 #define logEndstopY true 
@@ -178,9 +178,9 @@ void zpracovaniPrikazu(){
       break;
       case 1:
       zapnutiMOT();
-      moveToX(ziskejCislo('X',osaX.currentPosition()));
-      moveToY(ziskejCislo('Y',osaY.currentPosition()));
-      moveToZ(ziskejCislo('Z',osaZ.currentPosition()));
+      moveToX(ziskejCislo('X',osaX.currentPosition()/stoupaniX));
+      moveToY(ziskejCislo('Y',osaY.currentPosition()/stoupaniY));
+      moveToZ(ziskejCislo('Z',osaZ.currentPosition()/stoupaniZ));
       break;
       case 2:
       Serial.println(F("funguju"));
