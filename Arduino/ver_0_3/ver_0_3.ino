@@ -26,9 +26,12 @@
 */
 
 #include <AccelStepper.h>
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
+
 
 //globalni promenne
-#define akcelerace 1000  //výchozí akcelerace a rychlost pro celý systém
+#define akcelerace 1500  //výchozí akcelerace a rychlost pro celý systém
 #define rychlost 700
 #define uvolneniStopu 30 ///vzdálenost , kterou ujede aby neležel na endstopu
 #define diag             //vypisuje diagnosticke zpravy do serioveho monitoru
@@ -46,10 +49,18 @@ long delkaZ = 180;
 #define logEndstopY true
 #define logEndstopZ true
 
-int poziceX[] = {};  //10 pozic + dvě pro nakládání a skládání
-int poziceY[] = {};  //hloubka skladu, naložení skladu,
-int poziceZ[] = {};  //10 pozic
+#define nabiraciOffset 8
+//čislo pozice nakládací plochy
+int poziceX[] = {210,50,  1210, 1015, 825, 625, 425, 1250, 1015, 825, 625, 425   };  //10 pozic + dvě pro nakládání a skládání, nakl. vykl, 2 pozice
+int poziceZ[] = {1, 1,     169, 169,  169, 169, 169,  39,  39,   39,   39,  39   };  //10 pozic
+int poziceY[] = {0, 185,165, 165 };  //hloubka skladu, naložení skladu,  pozice: 0-pohybova pozice; 1-sklad; 2-nakladaci policko, 3- vykladaci policko
 
+
+int nX = 0;          //nakladaci pozice  UPRAVIT
+int nZ = 0;
+
+int vX = 1;
+int vZ = 1;
 
 byte ishomeX = false; //bez toho neví kde je, ještě není používáno
 byte ishomeY = false;
@@ -86,6 +97,8 @@ AccelStepper osaX(1, X_STEP_PIN, X_DIR_PIN);
 AccelStepper osaY(1, Y_STEP_PIN, Y_DIR_PIN);
 AccelStepper osaZ(1, Z_STEP_PIN, Z_DIR_PIN);
 
+LiquidCrystal_I2C lcd(0x27, 16, 2);
+
 ////////  KOMUNIKACE
 #define MAX_BUF 64  //maximální velikost bufferu pro přijímání dat
 int data;           //pocet dat v bufferu
@@ -104,7 +117,7 @@ void setup() {
   //rychlosti
   osaX.setMaxSpeed(rychlost);
   osaY.setMaxSpeed(rychlost);
-  osaZ.setMaxSpeed(rychlost);
+  osaZ.setMaxSpeed(rychlost*1.3);
 
   //akcelerace
   osaX.setAcceleration(akcelerace);
@@ -115,6 +128,10 @@ void setup() {
   pinMode(Y_MIN_PIN, INPUT);
   pinMode(Z_MIN_PIN, INPUT);
   Serial.begin(115200);
+
+    lcd.init();
+  lcd.backlight();
+  lcd.print("necum pico");
   data = 0;
 }
 
@@ -135,7 +152,7 @@ void loop() {
 
     if (data < MAX_BUF) { //overeni jestli se data vejdou do bufferu
       buffer[data++] = c;  //pridani dat do bufferu na dalsi pozici
-      Serial.println("pripisuji znak");
+      //Serial.println("pripisuji znak");
     }
     if (c == '\n') {
       //Serial.print(F("\r\n"));   //return - může být nahrazeno za OK, když bude spolupracovat python
@@ -183,7 +200,8 @@ void zpracovaniPrikazu() {
       moveToZ(ziskejCislo('Z', osaZ.currentPosition() / stoupaniZ));
       break;
     case 2:
-      //dodelat kod pro pole
+    zapnutiMOT();
+      movePole(ziskejCislo('P', -1), ziskejCislo('Z', -1));
       break;
     case 28:
       zapnutiMOT();
@@ -193,8 +211,8 @@ void zpracovaniPrikazu() {
       break;
 
     default:
-    
-    Serial.println(F("neplatny prikaz"));
+
+      Serial.println(F("neplatny prikaz"));
       break;;
 
   }
@@ -211,7 +229,7 @@ void zpracovaniPrikazu() {
       analogWrite(8, ziskejCislo('S', 0));
       break;
     default:
-    Serial.println(F("neplatny prikaz"));
+      Serial.println(F("neplatny prikaz"));
       break;;
   }
 
@@ -241,9 +259,79 @@ void vypisPozice() {
   Serial.println(osaZ.currentPosition() / stoupaniZ);
 }
 
+void movePole(int pozice, byte naskladnit) {
+  if (ishomeX && ishomeY && ishomeZ) {       //zjištění homu
+#ifdef diag
+    Serial.println(F("osy jsou v homu"));
+#endif
+  }
+  else {
+    zapnutiMOT();
+    homeY();
+    homeZ();
+    homeX();
+
+  }
+  if(naskladnit == 1){   //funkce pro naskladnění
+    moveToX(poziceX[nX]);  //zajeti do nakladaci polohy
+    moveToZ(poziceZ[nZ]);
+    moveToY(poziceY[2]);
+
+    moveZ(nabiraciOffset+20);
+    moveToY(poziceY[0]);           //vytahnuti osy do pracovni pozice
+
+    moveToX(poziceX[pozice]); //zajeti na uroven policka
+    moveToZ(poziceZ[pozice]+nabiraciOffset);
+
+
+    moveToY(poziceY[1]); //zajeti do pozice skladu
+
+    moveZ(-nabiraciOffset);  //polozeni
+
+    //moveToY(poziceY[0]); //cestovni pozice
+
+    homeY(); //zajeti do homu
+    homeZ();
+    homeX();
+    
+    
+  }
+  else if(naskladnit == 2){             //funkce pro vyskladnění
+    
+    moveToY(poziceY[0]);           //vytahnuti osy do cestovni pozice
+
+    moveToX(poziceX[pozice]); //zajeti na uroven policka
+    moveToZ(poziceZ[pozice]);
+
+    moveToY(poziceY[1]); //zajeti do pozice skladu
+    moveZ(nabiraciOffset);
+
+    moveToY(poziceY[0]); //cestovni pozice
+    
+    moveToX(poziceX[vX]);  //zajeti do vykladaci polohy
+    moveToZ(poziceZ[vZ]+20);
+    moveToY(poziceY[3]);
+
+   
+    moveZ(-nabiraciOffset-20);  //snizeni o vysku zajeti
+    //moveToY(poziceY[0]); //bezpecna pozice
+    
+
+    homeY(); //zajeti do homu
+    homeZ();
+    homeX();
+    
+  }
+  else{
+    //spatna hodnota (nebude delat nic)
+  }
+}
+
+
+
 /////////////////////////////////////// OSA X /////////////////////////////////
 void homeX() {
-  osaX.disableOutputs();  //zapnutí motoru
+ 
   osaX.move((-1)*xMotorDir * ((delkaX * stoupaniX) + 100)); //delka x stoupani pro pocet kroku a 100 aby jel za hranice osy
   while (osaX.currentPosition() != osaX.targetPosition() && digitalRead(X_MIN_PIN) == logEndstopX) //beží dokud nedoběhne na konec osy (nikdy) nebo dokud se neobrátí stav endstopu
   {
@@ -263,6 +351,19 @@ void homeX() {
 #endif
 }
 void moveX(float vzdalenost) {
+   if (ishomeX && ishomeY && ishomeZ) {       //zjištění homu
+#ifdef diag
+    Serial.println(F("osy jsou v homu"));
+#endif
+  }
+  else {
+    zapnutiMOT();
+    homeY();
+    homeZ();
+    homeX();
+
+  }
+  
   vzdalenost = stoupaniX * vzdalenost;
   osaX.move(xMotorDir * vzdalenost);
   while (osaX.currentPosition() != osaX.targetPosition())
@@ -284,6 +385,18 @@ void moveX(float vzdalenost) {
 
 }
 void moveToX(float vzdalenost) {
+   if (ishomeX && ishomeY && ishomeZ) {       //zjištění homu
+#ifdef diag
+    Serial.println(F("osy jsou v homu"));
+#endif
+  }
+  else {
+    zapnutiMOT();
+    homeY();
+    homeZ();
+    homeX();
+
+  }
   vzdalenost = stoupaniX * vzdalenost;
   osaX.moveTo(xMotorDir * vzdalenost);
   if (osaX.targetPosition() / stoupaniX > delkaX) { //pokud chce jet za hranice osy
@@ -303,7 +416,7 @@ void moveToX(float vzdalenost) {
 
 //////////////////////////////////////  OSA Y ///////////////////////////////////////
 void homeY() {
-  osaY.disableOutputs();  //zapnutí motoru
+  
   osaY.move((-1)*yMotorDir * ((delkaY * stoupaniY) + 100)); //delka y stoupani pro pocet kroku a 100 aby jel za hranice osy
   while (osaY.currentPosition() != osaY.targetPosition() && digitalRead(Y_MIN_PIN) == logEndstopY) //beží dokud nedoběhne na konec osy (nikdy) nebo dokud se neobrátí stav endstopu
   {
@@ -323,6 +436,18 @@ void homeY() {
 #endif
 }
 void moveY(float vzdalenost) {
+   if (ishomeX && ishomeY && ishomeZ) {       //zjištění homu
+#ifdef diag
+    Serial.println(F("osy jsou v homu"));
+#endif
+  }
+  else {
+    zapnutiMOT();
+    homeY();
+    homeZ();
+    homeX();
+
+  }
   vzdalenost = stoupaniY * vzdalenost;
   osaY.move(yMotorDir * vzdalenost);
   if (osaY.targetPosition() / stoupaniY > delkaY) { //pokud chce jet za hranice osy
@@ -340,6 +465,18 @@ void moveY(float vzdalenost) {
 
 }
 void moveToY(float vzdalenost) {
+   if (ishomeX && ishomeY && ishomeZ) {       //zjištění homu
+#ifdef diag
+    Serial.println(F("osy jsou v homu"));
+#endif
+  }
+  else {
+    zapnutiMOT();
+    homeY();
+    homeZ();
+    homeX();
+
+  }
   vzdalenost = stoupaniY * vzdalenost;
   osaY.moveTo(yMotorDir * vzdalenost);
   if (osaY.targetPosition() / stoupaniY > delkaY) { //pokud chce jet za hranice osy
@@ -359,7 +496,7 @@ void moveToY(float vzdalenost) {
 
 ///////////////////////////////////// OSA Z //////////////////////////////ú
 void homeZ() {
-  osaZ.disableOutputs();  //zapnutí motoru
+   
   osaZ.move((-1)*zMotorDir * ((delkaZ * stoupaniZ) + 100)); //delka z stoupani pro pocet kroku a 100 aby jel za hranice osy
   while (osaZ.currentPosition() != osaZ.targetPosition() && digitalRead(Z_MIN_PIN) == logEndstopZ) //beží dokud nedoběhne na konec osy (nikdy) nebo dokud se neobrátí stav endstopu
   {
@@ -372,13 +509,25 @@ void homeZ() {
   osaZ.move(zMotorDir * uvolneniStopu);
   osaZ.runToPosition();
   osaZ.setAcceleration(akcelerace);
-  osaZ.setMaxSpeed(rychlost);
+  osaZ.setMaxSpeed(rychlost*1.3); //zrychleni o 30% kvuli sroubu
   ishomeZ = 1;
 #ifdef diag
   Serial.println(F("Osa Z home"));
 #endif
 }
 void moveZ(float vzdalenost) {
+   if (ishomeX && ishomeY && ishomeZ) {       //zjištění homu
+#ifdef diag
+    Serial.println(F("osy jsou v homu"));
+#endif
+  }
+  else {
+    zapnutiMOT();
+    homeY();
+    homeZ();
+    homeX();
+
+  }
   vzdalenost = stoupaniZ * vzdalenost;
   osaZ.move(zMotorDir * vzdalenost);
   if (osaZ.targetPosition() / stoupaniZ > delkaZ) { //pokud chce jet za hranice osy
@@ -396,6 +545,18 @@ void moveZ(float vzdalenost) {
 
 }
 void moveToZ(float vzdalenost) {
+   if (ishomeX && ishomeY && ishomeZ) {       //zjištění homu
+#ifdef diag
+    Serial.println(F("osy jsou v homu"));
+#endif
+  }
+  else {
+    zapnutiMOT();
+    homeY();
+    homeZ();
+    homeX();
+
+  }
   vzdalenost = stoupaniZ * vzdalenost;
   osaZ.moveTo(zMotorDir * vzdalenost);
   if (osaZ.targetPosition() / stoupaniZ > delkaZ) { //pokud chce jet za hranice osy
