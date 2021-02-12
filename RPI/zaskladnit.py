@@ -53,7 +53,7 @@ sirka_policka = 16
 #pady_policek = 1
 
 
-Policko_9 = PushButton(regal, Policko9, height = Vyska_policka, width = sirka_policka, image = "service.png", grid=[0,0])
+Policko_9 = PushButton(regal, Policko9, image = "service.png", grid=[0,0])
 Policko_8 = PushButton(regal, Policko8, height = Vyska_policka, width = sirka_policka, text="8", grid=[1,0])
 Policko_7 = PushButton(regal, Policko7, height = Vyska_policka, width = sirka_policka, text="7", grid=[2,0])
 Policko_6 = PushButton(regal, Policko6, height = Vyska_policka, width = sirka_policka, text="6", grid=[3,0])
