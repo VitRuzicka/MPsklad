@@ -307,6 +307,8 @@ void movePole(int pozice, byte naskladnit) {
     moveZ(nabiraciOffset);
 
     moveToY(poziceY[0]); //cestovni pozice
+    moveToZ(poziceZ[vZ]+20);  //aby nenarazil do displeje
+    
     
     moveToX(poziceX[vX]);  //zajeti do vykladaci polohy
     moveToZ(poziceZ[vZ]+20);
