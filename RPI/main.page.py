@@ -351,7 +351,7 @@ info_text4.size = velikost_pisma_info
 info_text5.size = velikost_pisma_info
 info_text6.size = velikost_pisma_info
 
-
+#_____________________________________________________________________________________________
 #místo pro Vítkovu část kódu - komunikace s arduinem a kontrola napájení arduina
 
 
