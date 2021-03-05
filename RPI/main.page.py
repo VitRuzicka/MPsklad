@@ -3,7 +3,10 @@ from guizero import *
 app = App (height=480, width=800)
 app.bg = "#ff4d06"
 
+
+
 pole = [0,0,0,0,0,0,0,0,0,0]
+
 
 
 
@@ -28,6 +31,7 @@ def Naskladnit():
 	button_zpet.show()
 	button_info.hide()
 	hlavni_text_V.hide()
+	button_service.show()
 	
 
 
@@ -44,6 +48,7 @@ def Vyskladnit():
 	hlavni_text_S.hide()
 	button_zpet.show()
 	button_info.hide()
+	button_service.show()
 
 
 
@@ -62,6 +67,7 @@ def Service():
 	button_zpet.show()
 	button_info.hide()
 	hlavni_text_V.hide()
+	button_service.show()
 	
 
 
@@ -79,6 +85,7 @@ def Zpet(): #Také jako hlavní stránka - default
 	hlavni_text_S.hide()
 	button_zpet.hide()
 	button_info.show()
+	button_service.show()
 
 
 def Info():
@@ -94,9 +101,7 @@ def Info():
 	hlavni_text_S.hide()
 	button_zpet.show()
 	button_info.hide()
-
-
-
+	button_service.show()
 
 
 
@@ -141,34 +146,164 @@ regal = Box(Zaskladnit_menu, width = "400",layout="grid", align = "top", border 
 
 def Policko9():
 	print("požadavek na polohu 9")	
-	Policko_9a = Picture(regal, image = "pozice je plna.png", grid=[0,0])
+	print("čeká na info OK od Arduina")	
+	Pracovni_menu.show()
+	Hlavni_stranka.hide()
+	Servisni_menu.hide()
+	Vyskladnit_menu.hide()
+	Zaskladnit_menu.hide()
+	Info_menu.hide()
+
+	upozorneni.hide()
+	hlavni_text_Z.hide()
+	hlavni_text_S.hide()
+	button_zpet.hide()
+	button_info.hide()
+	button_service.hide()
 def Policko8():
 	print("požadavek na polohu 8")	
-	Policko_8a = Picture(regal, image = "pozice je plna.png", grid=[1,0])
+	print("čeká na info OK od Arduina")	
+	Pracovni_menu.show()
+	Hlavni_stranka.hide()
+	Servisni_menu.hide()
+	Vyskladnit_menu.hide()
+	Zaskladnit_menu.hide()
+	Info_menu.hide()
+
+	upozorneni.hide()
+	hlavni_text_Z.hide()
+	hlavni_text_S.hide()
+	button_zpet.hide()
+	button_info.hide()
+	button_service.hide()
 def Policko7():
 	print("požadavek na polohu 7")	
-	Policko_7a = Picture(regal, image = "pozice je plna.png", grid=[2,0])
+	print("čeká na info OK od Arduina")	
+	Pracovni_menu.show()
+	Hlavni_stranka.hide()
+	Servisni_menu.hide()
+	Vyskladnit_menu.hide()
+	Zaskladnit_menu.hide()
+	Info_menu.hide()
+
+	upozorneni.hide()
+	hlavni_text_Z.hide()
+	hlavni_text_S.hide()
+	button_zpet.hide()
+	button_info.hide()
+	button_service.hide()
 def Policko6():
 	print("požadavek na polohu 6")	
-	Policko_6a = Picture(regal, image = "pozice je plna.png", grid=[3,0])
+	print("čeká na info OK od Arduina")	
+	Pracovni_menu.show()
+	Hlavni_stranka.hide()
+	Servisni_menu.hide()
+	Vyskladnit_menu.hide()
+	Zaskladnit_menu.hide()
+	Info_menu.hide()
+
+	upozorneni.hide()
+	hlavni_text_Z.hide()
+	hlavni_text_S.hide()
+	button_zpet.hide()
+	button_info.hide()
+	button_service.hide()
 def Policko5():
 	print("požadavek na polohu 5")	
-	Policko_5a = Picture(regal, image = "pozice je plna.png", grid=[4,0])
+	print("čeká na info OK od Arduina")	
+	Pracovni_menu.show()
+	Hlavni_stranka.hide()
+	Servisni_menu.hide()
+	Vyskladnit_menu.hide()
+	Zaskladnit_menu.hide()
+	Info_menu.hide()
+
+	upozorneni.hide()
+	hlavni_text_Z.hide()
+	hlavni_text_S.hide()
+	button_zpet.hide()
+	button_info.hide()
+	button_service.hide()
 def Policko4():
 	print("požadavek na polohu 4")	
-	Policko_4a = Picture(regal, image = "pozice je plna.png", grid=[0,1])
+	print("čeká na info OK od Arduina")	
+	Pracovni_menu.show()
+	Hlavni_stranka.hide()
+	Servisni_menu.hide()
+	Vyskladnit_menu.hide()
+	Zaskladnit_menu.hide()
+	Info_menu.hide()
+
+	upozorneni.hide()
+	hlavni_text_Z.hide()
+	hlavni_text_S.hide()
+	button_zpet.hide()
+	button_info.hide()
+	button_service.hide()
 def Policko3():
 	print("požadavek na polohu 3")	
-	Policko_3a = Picture(regal, image = "pozice je plna.png", grid=[1,1])
+	print("čeká na info OK od Arduina")	
+	Pracovni_menu.show()
+	Hlavni_stranka.hide()
+	Servisni_menu.hide()
+	Vyskladnit_menu.hide()
+	Zaskladnit_menu.hide()
+	Info_menu.hide()
+
+	upozorneni.hide()
+	hlavni_text_Z.hide()
+	hlavni_text_S.hide()
+	button_zpet.hide()
+	button_info.hide()
+	button_service.hide()
 def Policko2():
 	print("požadavek na polohu 2")	
-	Policko_2a = Picture(regal, image = "pozice je plna.png", grid=[2,1])
+	print("čeká na info OK od Arduina")	
+	Pracovni_menu.show()
+	Hlavni_stranka.hide()
+	Servisni_menu.hide()
+	Vyskladnit_menu.hide()
+	Zaskladnit_menu.hide()
+	Info_menu.hide()
+
+	upozorneni.hide()
+	hlavni_text_Z.hide()
+	hlavni_text_S.hide()
+	button_zpet.hide()
+	button_info.hide()
+	button_service.hide()
 def Policko1():
 	print("požadavek na polohu 1")	
-	Policko_1a = Picture(regal, image = "pozice je plna.png", grid=[3,1])
+	print("čeká na info OK od Arduina")	
+	Pracovni_menu.show()
+	Hlavni_stranka.hide()
+	Servisni_menu.hide()
+	Vyskladnit_menu.hide()
+	Zaskladnit_menu.hide()
+	Info_menu.hide()
+
+	upozorneni.hide()
+	hlavni_text_Z.hide()
+	hlavni_text_S.hide()
+	button_zpet.hide()
+	button_info.hide()
+	button_service.hide()
 def Policko0():
 	print("požadavek na polohu 0")	
-	Policko_0a = Picture(regal, image = "pozice je plna.png", grid=[4,1])
+	print("čeká na info OK od Arduina")	
+	Pracovni_menu.show()
+	Hlavni_stranka.hide()
+	Servisni_menu.hide()
+	Vyskladnit_menu.hide()
+	Zaskladnit_menu.hide()
+	Info_menu.hide()
+
+	upozorneni.hide()
+	hlavni_text_Z.hide()
+	hlavni_text_S.hide()
+	button_zpet.hide()
+	button_info.hide()
+	button_service.hide()
 
 hlavni_text_Z = Text(zahlaví, "Vyberte pozici")
 hlavni_text_Z.text_size = 55
@@ -200,34 +335,164 @@ regal2 = Box(Vyskladnit_menu, width = "400",layout="grid", align = "top", border
 
 def Policko9():
 	print("požadavek na polohu 9")	
-	Policko_9a = Picture(regal2, image = "pozice je plna.png", grid=[0,0])
+	print("čeká na info OK od Arduina")	
+	Pracovni_menu.show()
+	Hlavni_stranka.hide()
+	Servisni_menu.hide()
+	Vyskladnit_menu.hide()
+	Zaskladnit_menu.hide()
+	Info_menu.hide()
+
+	upozorneni.hide()
+	hlavni_text_Z.hide()
+	hlavni_text_S.hide()
+	button_zpet.hide()
+	button_info.hide()
+	button_service.hide()
 def Policko8():
 	print("požadavek na polohu 8")	
-	Policko_8a = Picture(regal2, image = "pozice je plna.png", grid=[1,0])
+	print("čeká na info OK od Arduina")	
+	Pracovni_menu.show()
+	Hlavni_stranka.hide()
+	Servisni_menu.hide()
+	Vyskladnit_menu.hide()
+	Zaskladnit_menu.hide()
+	Info_menu.hide()
+
+	upozorneni.hide()
+	hlavni_text_Z.hide()
+	hlavni_text_S.hide()
+	button_zpet.hide()
+	button_info.hide()
+	button_service.hide()
 def Policko7():
 	print("požadavek na polohu 7")	
-	Policko_7a = Picture(regal2, image = "pozice je plna.png", grid=[2,0])
+	print("čeká na info OK od Arduina")	
+	Pracovni_menu.show()
+	Hlavni_stranka.hide()
+	Servisni_menu.hide()
+	Vyskladnit_menu.hide()
+	Zaskladnit_menu.hide()
+	Info_menu.hide()
+
+	upozorneni.hide()
+	hlavni_text_Z.hide()
+	hlavni_text_S.hide()
+	button_zpet.hide()
+	button_info.hide()
+	button_service.hide()
 def Policko6():
 	print("požadavek na polohu 6")	
-	Policko_6a = Picture(regal2, image = "pozice je plna.png", grid=[3,0])
+	print("čeká na info OK od Arduina")	
+	Pracovni_menu.show()
+	Hlavni_stranka.hide()
+	Servisni_menu.hide()
+	Vyskladnit_menu.hide()
+	Zaskladnit_menu.hide()
+	Info_menu.hide()
+
+	upozorneni.hide()
+	hlavni_text_Z.hide()
+	hlavni_text_S.hide()
+	button_zpet.hide()
+	button_info.hide()
+	button_service.hide()
 def Policko5():
 	print("požadavek na polohu 5")	
-	Policko_5a = Picture(regal2, image = "pozice je plna.png", grid=[4,0])
+	print("čeká na info OK od Arduina")	
+	Pracovni_menu.show()
+	Hlavni_stranka.hide()
+	Servisni_menu.hide()
+	Vyskladnit_menu.hide()
+	Zaskladnit_menu.hide()
+	Info_menu.hide()
+
+	upozorneni.hide()
+	hlavni_text_Z.hide()
+	hlavni_text_S.hide()
+	button_zpet.hide()
+	button_info.hide()
+	button_service.hide()
 def Policko4():
 	print("požadavek na polohu 4")	
-	Policko_4a = Picture(regal2, image = "pozice je plna.png", grid=[0,1])
+	print("čeká na info OK od Arduina")	
+	Pracovni_menu.show()
+	Hlavni_stranka.hide()
+	Servisni_menu.hide()
+	Vyskladnit_menu.hide()
+	Zaskladnit_menu.hide()
+	Info_menu.hide()
+
+	upozorneni.hide()
+	hlavni_text_Z.hide()
+	hlavni_text_S.hide()
+	button_zpet.hide()
+	button_info.hide()
+	button_service.hide()
 def Policko3():
 	print("požadavek na polohu 3")	
-	Policko_3a = Picture(regal2, image = "pozice je plna.png", grid=[1,1])
+	print("čeká na info OK od Arduina")	
+	Pracovni_menu.show()
+	Hlavni_stranka.hide()
+	Servisni_menu.hide()
+	Vyskladnit_menu.hide()
+	Zaskladnit_menu.hide()
+	Info_menu.hide()
+
+	upozorneni.hide()
+	hlavni_text_Z.hide()
+	hlavni_text_S.hide()
+	button_zpet.hide()
+	button_info.hide()
+	button_service.hide()
 def Policko2():
 	print("požadavek na polohu 2")	
-	Policko_2a = Picture(regal2, image = "pozice je plna.png", grid=[2,1])
+	print("čeká na info OK od Arduina")	
+	Pracovni_menu.show()
+	Hlavni_stranka.hide()
+	Servisni_menu.hide()
+	Vyskladnit_menu.hide()
+	Zaskladnit_menu.hide()
+	Info_menu.hide()
+
+	upozorneni.hide()
+	hlavni_text_Z.hide()
+	hlavni_text_S.hide()
+	button_zpet.hide()
+	button_info.hide()
+	button_service.hide()
 def Policko1():
 	print("požadavek na polohu 1")	
-	Policko_1a = Picture(regal2, image = "pozice je plna.png", grid=[3,1])
+	print("čeká na info OK od Arduina")	
+	Pracovni_menu.show()
+	Hlavni_stranka.hide()
+	Servisni_menu.hide()
+	Vyskladnit_menu.hide()
+	Zaskladnit_menu.hide()
+	Info_menu.hide()
+
+	upozorneni.hide()
+	hlavni_text_Z.hide()
+	hlavni_text_S.hide()
+	button_zpet.hide()
+	button_info.hide()
+	button_service.hide()
 def Policko0():
 	print("požadavek na polohu 0")	
-	Policko_0a = Picture(regal2, image = "pozice je plna.png", grid=[4,1])
+	print("čeká na info OK od Arduina")	
+	Pracovni_menu.show()
+	Hlavni_stranka.hide()
+	Servisni_menu.hide()
+	Vyskladnit_menu.hide()
+	Zaskladnit_menu.hide()
+	Info_menu.hide()
+
+	upozorneni.hide()
+	hlavni_text_Z.hide()
+	hlavni_text_S.hide()
+	button_zpet.hide()
+	button_info.hide()
+	button_service.hide()
 
 hlavni_text_V = Text(zahlaví, "Vyberte pozici")
 hlavni_text_V.text_size = 55
@@ -311,7 +576,18 @@ Z_minus = PushButton(stred, Z_minusa, text = "Z minus", image = "Zminus.png", gr
 
 
 
+#_____________________________________________________________________________________________________
 
+#							!!!Pracovní Menu!!!
+Pracovni_menu = Box(app, width = "fill")
+Pracovni_menu.hide()
+
+oznameni = Text(Pracovni_menu,"Probíhá vykonání požadavku.")
+oznameni.size = "40"
+oznameni.font = "Calibry"
+oznameni1 = Text(Pracovni_menu,"Vyčkejte.")
+oznameni1.size = "40"
+oznameni1.font = "Calibry"
 
 
 
@@ -319,6 +595,7 @@ Z_minus = PushButton(stred, Z_minusa, text = "Z minus", image = "Zminus.png", gr
 #						!!!zápatí!!!
 zapati = Box(app, width = "fill", align = "bottom")
 button_service = PushButton(zapati, Service,image = "service.png", align = "left")
+button_service.show()
 button_zpet = PushButton(zapati, Zpet, image = "sipka_zpet.png", align = "right")
 button_zpet.hide()
 button_info = PushButton(zapati, Info, image = "info.png", align = "right")
@@ -350,11 +627,6 @@ info_text3.size = velikost_pisma_info
 info_text4.size = velikost_pisma_info
 info_text5.size = velikost_pisma_info
 info_text6.size = velikost_pisma_info
-
-#_____________________________________________________________________________________________
-#místo pro Vítkovu část kódu - komunikace s arduinem a kontrola napájení arduina
-
-
 
 
 
