@@ -352,4 +352,13 @@ info_text5.size = velikost_pisma_info
 info_text6.size = velikost_pisma_info
 
 
+#místo pro Vítkovu část kódu - komunikace s arduinem a kontrola napájení arduina
+
+
+
+
+
+
+
+
 app.display ()
