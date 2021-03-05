@@ -212,7 +212,7 @@ void zpracovaniPrikazu() {
 
     default:
 
-      Serial.println(F("neplatny prikaz"));
+      Serial.println(F("neplatny prikaz G"));
       break;;
 
   }
@@ -228,8 +228,11 @@ void zpracovaniPrikazu() {
     case 106:
       analogWrite(8, ziskejCislo('S', 0));
       break;
+    case 99:
+      Serial.println("OK");                 //zpusob PING PONGU
+      break;
     default:
-      Serial.println(F("neplatny prikaz"));
+      Serial.println(F("neplatny prikaz M"));
       break;;
   }
 
