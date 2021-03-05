@@ -3,7 +3,7 @@ from guizero import *
 app = App (height=480, width=800)
 app.bg = "#ff4d06"
 
-
+pole = [0,0,0,0,0,0,0,0,0,0]
 
 
 
