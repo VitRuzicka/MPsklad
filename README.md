@@ -7,5 +7,6 @@
 <ul>
   <li>
     -zapracovat na dobrzdovani pred koncaky a přidat průběžné senzory</li>
+  <li>-zkalibrovat skutecne hodnoty a vyzkoušet nové fce</li>
   
   </ul>
