@@ -276,6 +276,17 @@ void movePole(int pozice, byte naskladnit) {
 
   }
   if(naskladnit == 1){   //funkce pro naskladnění
+    while(digitalRead(X_MAX_PIN)){ //pokud neni sepnut koncak na nakladaci plose
+    if(Serial.available()){
+    String odpoved = Serial.readStringUntil('#');
+      if(odpoved == "jsem curak"){ //stisknuti jsem curak tlacitka na rpi
+        break;  //  
+        goto konecNaskladneni;
+    }
+      
+    }
+      
+      
     moveToX(poziceX[nX]);  //zajeti do nakladaci polohy
     moveToZ(poziceZ[nZ]);
     moveToY(poziceY[2]);
@@ -296,7 +307,8 @@ void movePole(int pozice, byte naskladnit) {
     homeY(); //zajeti do homu
     homeZ();
     homeX();
-    
+      Serial.println("OK");
+    konecNaskladneni:
     
   }
   else if(naskladnit == 2){             //funkce pro vyskladnění
@@ -315,6 +327,9 @@ void movePole(int pozice, byte naskladnit) {
     
     moveToX(poziceX[vX]);  //zajeti do vykladaci polohy
     moveToZ(poziceZ[vZ]+20);
+    while(!digitalRead(Y_MAX_PIN)){  //pokud je obsazena vykl. plocha
+      delay(500);
+    }
     moveToY(poziceY[3]);
 
    
@@ -325,6 +340,7 @@ void movePole(int pozice, byte naskladnit) {
     homeY(); //zajeti do homu
     homeZ();
     homeX();
+    Serial.println("OK");
     
   }
   else{
