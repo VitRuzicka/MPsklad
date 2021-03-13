@@ -1,11 +1,23 @@
 
 from guizero import *
+from gpiozero import Button
 app = App (height=480, width=800)
 app.bg = "#ff4d06"
 
 
 
 pole = [0,0,0,0,0,0,0,0,0,0]
+
+#Zde jdu kontrolovat napájení arduina. Pokud nebude arduino napájené, tak vyskočí error okno na panelu.
+arduino = Button(17)
+
+while True:
+	if button.is_pressed:
+		print("Arduino je napájené")
+		Error_okno.hide()
+	else:
+		print("Aruino bez napájení")
+		Error_okno.show()
 
 
 
@@ -117,7 +129,7 @@ image2 = Picture(zahlaví, image = "logo_prace.png", align = "right")
 
 
 
-# 						!!!Main.Page!!!
+#                       !!!Main.Page!!!
 
 Hlavni_stranka = Box(app)
 
@@ -126,7 +138,7 @@ hlavni_text_H.text_size = 55
 hlavni_text_H.font = "Calibry"
 
 
-#				!!!tlačítka Naskladnit a vyskladnit!!!
+#               !!!tlačítka Naskladnit a vyskladnit!!!
 tlacitovy_box = Box(Hlavni_stranka, width = "fill", align = "bottom", border = 4)
 button1 = PushButton (tlacitovy_box, Vyskladnit, text="Vyskladnit", align = "left")
 button1.text_size = 50
@@ -139,14 +151,14 @@ button2.font = "Calibry"
 #__________________________________________________________________________________________________
 
 
-#					!!!Zaskladnit!!!
+#                   !!!Zaskladnit!!!
 Zaskladnit_menu = Box(app)
 Zaskladnit_menu.hide()
 regal = Box(Zaskladnit_menu, width = "400",layout="grid", align = "top", border = 4)
 
 def Policko9():
-	print("požadavek na polohu 9")	
-	print("čeká na info OK od Arduina")	
+	print("požadavek na polohu 9")  
+	print("čeká na info OK od Arduina") 
 	Pracovni_menu.show()
 	Hlavni_stranka.hide()
 	Servisni_menu.hide()
@@ -161,8 +173,8 @@ def Policko9():
 	button_info.hide()
 	button_service.hide()
 def Policko8():
-	print("požadavek na polohu 8")	
-	print("čeká na info OK od Arduina")	
+	print("požadavek na polohu 8")  
+	print("čeká na info OK od Arduina") 
 	Pracovni_menu.show()
 	Hlavni_stranka.hide()
 	Servisni_menu.hide()
@@ -177,8 +189,8 @@ def Policko8():
 	button_info.hide()
 	button_service.hide()
 def Policko7():
-	print("požadavek na polohu 7")	
-	print("čeká na info OK od Arduina")	
+	print("požadavek na polohu 7")  
+	print("čeká na info OK od Arduina") 
 	Pracovni_menu.show()
 	Hlavni_stranka.hide()
 	Servisni_menu.hide()
@@ -193,8 +205,8 @@ def Policko7():
 	button_info.hide()
 	button_service.hide()
 def Policko6():
-	print("požadavek na polohu 6")	
-	print("čeká na info OK od Arduina")	
+	print("požadavek na polohu 6")  
+	print("čeká na info OK od Arduina") 
 	Pracovni_menu.show()
 	Hlavni_stranka.hide()
 	Servisni_menu.hide()
@@ -209,8 +221,8 @@ def Policko6():
 	button_info.hide()
 	button_service.hide()
 def Policko5():
-	print("požadavek na polohu 5")	
-	print("čeká na info OK od Arduina")	
+	print("požadavek na polohu 5")  
+	print("čeká na info OK od Arduina") 
 	Pracovni_menu.show()
 	Hlavni_stranka.hide()
 	Servisni_menu.hide()
@@ -225,8 +237,8 @@ def Policko5():
 	button_info.hide()
 	button_service.hide()
 def Policko4():
-	print("požadavek na polohu 4")	
-	print("čeká na info OK od Arduina")	
+	print("požadavek na polohu 4")  
+	print("čeká na info OK od Arduina") 
 	Pracovni_menu.show()
 	Hlavni_stranka.hide()
 	Servisni_menu.hide()
@@ -241,8 +253,8 @@ def Policko4():
 	button_info.hide()
 	button_service.hide()
 def Policko3():
-	print("požadavek na polohu 3")	
-	print("čeká na info OK od Arduina")	
+	print("požadavek na polohu 3")  
+	print("čeká na info OK od Arduina") 
 	Pracovni_menu.show()
 	Hlavni_stranka.hide()
 	Servisni_menu.hide()
@@ -257,8 +269,8 @@ def Policko3():
 	button_info.hide()
 	button_service.hide()
 def Policko2():
-	print("požadavek na polohu 2")	
-	print("čeká na info OK od Arduina")	
+	print("požadavek na polohu 2")  
+	print("čeká na info OK od Arduina") 
 	Pracovni_menu.show()
 	Hlavni_stranka.hide()
 	Servisni_menu.hide()
@@ -273,8 +285,8 @@ def Policko2():
 	button_info.hide()
 	button_service.hide()
 def Policko1():
-	print("požadavek na polohu 1")	
-	print("čeká na info OK od Arduina")	
+	print("požadavek na polohu 1")  
+	print("čeká na info OK od Arduina") 
 	Pracovni_menu.show()
 	Hlavni_stranka.hide()
 	Servisni_menu.hide()
@@ -289,8 +301,8 @@ def Policko1():
 	button_info.hide()
 	button_service.hide()
 def Policko0():
-	print("požadavek na polohu 0")	
-	print("čeká na info OK od Arduina")	
+	print("požadavek na polohu 0")  
+	print("čeká na info OK od Arduina") 
 	Pracovni_menu.show()
 	Hlavni_stranka.hide()
 	Servisni_menu.hide()
@@ -328,14 +340,14 @@ Policko_0 = PushButton(regal, Policko0, image = "logo_do_regalu.png", grid=[4,1]
 
 
 
-#					!!!Vyskladnit!!!
+#                   !!!Vyskladnit!!!
 Vyskladnit_menu = Box(app)
 Vyskladnit_menu.hide()
 regal2 = Box(Vyskladnit_menu, width = "400",layout="grid", align = "top", border = 4)
 
 def Policko9():
-	print("požadavek na polohu 9")	
-	print("čeká na info OK od Arduina")	
+	print("požadavek na polohu 9")  
+	print("čeká na info OK od Arduina") 
 	Pracovni_menu.show()
 	Hlavni_stranka.hide()
 	Servisni_menu.hide()
@@ -350,8 +362,8 @@ def Policko9():
 	button_info.hide()
 	button_service.hide()
 def Policko8():
-	print("požadavek na polohu 8")	
-	print("čeká na info OK od Arduina")	
+	print("požadavek na polohu 8")  
+	print("čeká na info OK od Arduina") 
 	Pracovni_menu.show()
 	Hlavni_stranka.hide()
 	Servisni_menu.hide()
@@ -366,8 +378,8 @@ def Policko8():
 	button_info.hide()
 	button_service.hide()
 def Policko7():
-	print("požadavek na polohu 7")	
-	print("čeká na info OK od Arduina")	
+	print("požadavek na polohu 7")  
+	print("čeká na info OK od Arduina") 
 	Pracovni_menu.show()
 	Hlavni_stranka.hide()
 	Servisni_menu.hide()
@@ -382,8 +394,8 @@ def Policko7():
 	button_info.hide()
 	button_service.hide()
 def Policko6():
-	print("požadavek na polohu 6")	
-	print("čeká na info OK od Arduina")	
+	print("požadavek na polohu 6")  
+	print("čeká na info OK od Arduina") 
 	Pracovni_menu.show()
 	Hlavni_stranka.hide()
 	Servisni_menu.hide()
@@ -398,8 +410,8 @@ def Policko6():
 	button_info.hide()
 	button_service.hide()
 def Policko5():
-	print("požadavek na polohu 5")	
-	print("čeká na info OK od Arduina")	
+	print("požadavek na polohu 5")  
+	print("čeká na info OK od Arduina") 
 	Pracovni_menu.show()
 	Hlavni_stranka.hide()
 	Servisni_menu.hide()
@@ -414,8 +426,8 @@ def Policko5():
 	button_info.hide()
 	button_service.hide()
 def Policko4():
-	print("požadavek na polohu 4")	
-	print("čeká na info OK od Arduina")	
+	print("požadavek na polohu 4")  
+	print("čeká na info OK od Arduina") 
 	Pracovni_menu.show()
 	Hlavni_stranka.hide()
 	Servisni_menu.hide()
@@ -430,8 +442,8 @@ def Policko4():
 	button_info.hide()
 	button_service.hide()
 def Policko3():
-	print("požadavek na polohu 3")	
-	print("čeká na info OK od Arduina")	
+	print("požadavek na polohu 3")  
+	print("čeká na info OK od Arduina") 
 	Pracovni_menu.show()
 	Hlavni_stranka.hide()
 	Servisni_menu.hide()
@@ -446,8 +458,8 @@ def Policko3():
 	button_info.hide()
 	button_service.hide()
 def Policko2():
-	print("požadavek na polohu 2")	
-	print("čeká na info OK od Arduina")	
+	print("požadavek na polohu 2")  
+	print("čeká na info OK od Arduina") 
 	Pracovni_menu.show()
 	Hlavni_stranka.hide()
 	Servisni_menu.hide()
@@ -462,8 +474,8 @@ def Policko2():
 	button_info.hide()
 	button_service.hide()
 def Policko1():
-	print("požadavek na polohu 1")	
-	print("čeká na info OK od Arduina")	
+	print("požadavek na polohu 1")  
+	print("čeká na info OK od Arduina") 
 	Pracovni_menu.show()
 	Hlavni_stranka.hide()
 	Servisni_menu.hide()
@@ -478,8 +490,8 @@ def Policko1():
 	button_info.hide()
 	button_service.hide()
 def Policko0():
-	print("požadavek na polohu 0")	
-	print("čeká na info OK od Arduina")	
+	print("požadavek na polohu 0")  
+	print("čeká na info OK od Arduina") 
 	Pracovni_menu.show()
 	Hlavni_stranka.hide()
 	Servisni_menu.hide()
@@ -515,7 +527,7 @@ Policko_0 = PushButton(regal2, Policko0, image = "pozice je prazdna.png", grid=[
 
 #_____________________________________________________________________________________________________
 
-#							!!!Servisní Menu!!!
+#                           !!!Servisní Menu!!!
 Servisni_menu = Box(app)
 Servisni_menu.hide()
 
@@ -578,7 +590,7 @@ Z_minus = PushButton(stred, Z_minusa, text = "Z minus", image = "Zminus.png", gr
 
 #_____________________________________________________________________________________________________
 
-#							!!!Pracovní Menu!!!
+#                           !!!Pracovní Menu!!!
 Pracovni_menu = Box(app, width = "fill")
 Pracovni_menu.hide()
 
@@ -589,10 +601,21 @@ oznameni1 = Text(Pracovni_menu,"Vyčkejte.")
 oznameni1.size = "40"
 oznameni1.font = "Calibry"
 
+#                           !!!Error Menu!!!
+Error_menu = Box(app)
+Error_menu.hide()
 
+#------------------------upozornění - vyskakovací okno------------------------------------------------
+Error_okno = Window(app, title = "UPOZORNĚNÍ", height=300, width=650)
+Error_okno.bg = "red"
+text_error1 = Text(Error_okno, text = "Upozornění !!!")
+text_error1.size = 50
+text_error2 = Text(Error_okno, text = "Systém zaznamenal chybu. Příkaz, který požadujete se nevykonal správně. Zkontrolujte napájení Arduina.")
+text_error2.size = 15
+Error_okno.hide()
 
 #_________________________________________________________________________________________________
-#						!!!zápatí!!!
+#                       !!!zápatí!!!
 zapati = Box(app, width = "fill", align = "bottom")
 button_service = PushButton(zapati, Service,image = "service.png", align = "left")
 button_service.show()
