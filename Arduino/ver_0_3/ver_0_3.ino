@@ -37,7 +37,7 @@
 #define diag             //vypisuje diagnosticke zpravy do serioveho monitoru
 
 
-long delkaX = 1210;  //nastaveni delky osy v mm
+long delkaX = 1250;  //nastaveni delky osy v mm
 long delkaY = 190;
 long delkaZ = 180;
 
@@ -51,9 +51,9 @@ long delkaZ = 180;
 
 #define nabiraciOffset 8
 //čislo pozice nakládací plochy
-int poziceX[] = {213,50,  1210, 1015, 825, 625, 425, 1250, 1015, 825, 625, 425   };  //10 pozic + dvě pro nakládání a skládání, nakl. vykl, 2 pozice
-int poziceZ[] = {1, 1,     169, 169,  169, 169, 169,  39,  39,   39,   39,  39   };  //10 pozic
-int poziceY[] = {0, 185,165, 165 };  //hloubka skladu, naložení skladu,  pozice: 0-pohybova pozice; 1-sklad; 2-nakladaci policko, 3- vykladaci policko
+int poziceX[] = {213,50,  1210, 1005, 810, 613, 415, 1200, 1005, 810, 613, 420   };  //10 pozic + dvě pro nakládání a skládání, nakl. vykl, 2 pozice
+int poziceZ[] = {1, 3,     169, 169,  169, 169, 169,  39,  39,   39,   39,  39   };  //10 pozic
+int poziceY[] = {0, 185,165, 167 };  //hloubka skladu, naložení skladu,  pozice: 0-pohybova pozice; 1-sklad; 2-nakladaci policko, 3- vykladaci policko
 
 
 int nX = 0;          //nakladaci pozice  UPRAVIT
@@ -131,7 +131,9 @@ void setup() {
 
     lcd.init();
   lcd.backlight();
-  lcd.print("necum pico");
+  lcd.print("frantisku");
+  lcd.setCursor(0,1);
+  lcd.print("vyser si voko");
   data = 0;
 }
 
@@ -225,8 +227,11 @@ void zpracovaniPrikazu() {
     case 18:
       vypnutiMOT();
       break;
-    case 106:
+    case 108:
       analogWrite(8, ziskejCislo('S', 0));
+      break;
+    case 110:
+      analogWrite(10, ziskejCislo('S', 0));
       break;
     case 99:
       Serial.println("OK");                 //zpusob PING PONGU
@@ -285,6 +290,7 @@ void movePole(int pozice, byte naskladnit) {
     }
       
     }
+    delay(500);
     }
       
       
@@ -319,7 +325,7 @@ void movePole(int pozice, byte naskladnit) {
     moveToX(poziceX[pozice]); //zajeti na uroven policka
     moveToZ(poziceZ[pozice]);
 
-    moveToY(poziceY[1]); //zajeti do pozice skladu
+    moveToY(poziceY[1]+1); //zajeti do pozice skladu     5 je aby si podsekl paletu   pridavne zajizdeni
     moveZ(nabiraciOffset);
 
     moveToY(poziceY[0]); //cestovni pozice
