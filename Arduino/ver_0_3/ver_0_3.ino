@@ -51,7 +51,7 @@ long delkaZ = 180;
 
 #define nabiraciOffset 8
 //čislo pozice nakládací plochy
-int poziceX[] = {210,50,  1210, 1015, 825, 625, 425, 1250, 1015, 825, 625, 425   };  //10 pozic + dvě pro nakládání a skládání, nakl. vykl, 2 pozice
+int poziceX[] = {213,50,  1210, 1015, 825, 625, 425, 1250, 1015, 825, 625, 425   };  //10 pozic + dvě pro nakládání a skládání, nakl. vykl, 2 pozice
 int poziceZ[] = {1, 1,     169, 169,  169, 169, 169,  39,  39,   39,   39,  39   };  //10 pozic
 int poziceY[] = {0, 185,165, 165 };  //hloubka skladu, naložení skladu,  pozice: 0-pohybova pozice; 1-sklad; 2-nakladaci policko, 3- vykladaci policko
 
@@ -280,10 +280,11 @@ void movePole(int pozice, byte naskladnit) {
     if(Serial.available()){
     String odpoved = Serial.readStringUntil('#');
       if(odpoved == "jsem curak"){ //stisknuti jsem curak tlacitka na rpi
-        break;  //  
+      
         goto konecNaskladneni;
     }
       
+    }
     }
       
       
@@ -309,7 +310,7 @@ void movePole(int pozice, byte naskladnit) {
     homeX();
       Serial.println("OK");
     konecNaskladneni:
-    
+    Serial.println("");
   }
   else if(naskladnit == 2){             //funkce pro vyskladnění
     
