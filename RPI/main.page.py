@@ -1,9 +1,15 @@
 
 from guizero import *
 from gpiozero import Button
+import serial
 app = App (height=480, width=800)
 app.bg = "#ff4d06"
 
+
+
+
+ser = serial.Serial('/dev/ttyUSB0', 115200) # open serial port
+print(ser.name)         # check which port was really used
 
 
 pole = [0,0,0,0,0,0,0,0,0,0]
@@ -11,26 +17,25 @@ pole = [0,0,0,0,0,0,0,0,0,0]
 #Zde jdu kontrolovat napájení arduina. Pokud nebude arduino napájené, tak vyskočí error okno na panelu.
 arduino = Button(17)
 
-while True:
-	if button.is_pressed:
-		print("Arduino je napájené")
-		Error_okno.hide()
-	else:
-		print("Aruino bez napájení")
-		Error_okno.show()
-
-
-
-
-def Vyskladnit():
-	print("Požadavek pro Vyskladnění")
-def Naskladnit():
-	print("Požadavek pro Naskladnění")
 def service():
+	if arduino.is_pressed:
+		print("Arduino je bez napájení")
+		Error_okno.show()
+	else:
+		print("Aruino je napájené")
+		Error_okno.hide()
 	print("Potřebuju opravit")
 
 
 def Naskladnit():
+	if arduino.is_pressed:
+		print("Arduino je bez napájení")
+		Error_okno.show()
+	else:
+		print("Aruino je napájené")
+		Error_okno.hide()
+	print("Požadavek pro Naskladnění")
+
 	Hlavni_stranka.hide()
 	Servisni_menu.hide()
 	Zaskladnit_menu.show()
@@ -49,18 +54,24 @@ def Naskladnit():
 
 
 def Vyskladnit():
-	Hlavni_stranka.hide()
-	Servisni_menu.hide()
-	Zaskladnit_menu.hide()
-	Vyskladnit_menu.show()
+	if arduino.is_pressed:
+		print("Arduino je bez napájení")
+		Error_okno.show()
+	else:
+		print("Aruino je napájené")
+		Error_okno.hide()
+		print("Požadavek pro Vyskladnění")
+		Hlavni_stranka.hide()
+		Servisni_menu.hide()
+		Zaskladnit_menu.hide()
+		Vyskladnit_menu.show()
 
-	upozorneni.hide()
-	hlavni_text_V.show()
-	hlavni_text_Z.hide()
-	hlavni_text_S.hide()
-	button_zpet.show()
-	button_info.hide()
-	button_service.show()
+		upozorneni.hide()
+		hlavni_text_Z.hide()
+		hlavni_text_S.hide()
+		button_zpet.show()
+		button_info.hide()
+		button_service.show()
 
 
 
@@ -169,7 +180,7 @@ def Policko9():
 	upozorneni.hide()
 	hlavni_text_Z.hide()
 	hlavni_text_S.hide()
-	button_zpet.hide()
+	button_zpet.show()
 	button_info.hide()
 	button_service.hide()
 def Policko8():
@@ -185,7 +196,7 @@ def Policko8():
 	upozorneni.hide()
 	hlavni_text_Z.hide()
 	hlavni_text_S.hide()
-	button_zpet.hide()
+	button_zpet.show()
 	button_info.hide()
 	button_service.hide()
 def Policko7():
@@ -201,7 +212,7 @@ def Policko7():
 	upozorneni.hide()
 	hlavni_text_Z.hide()
 	hlavni_text_S.hide()
-	button_zpet.hide()
+	button_zpet.show()
 	button_info.hide()
 	button_service.hide()
 def Policko6():
@@ -217,7 +228,7 @@ def Policko6():
 	upozorneni.hide()
 	hlavni_text_Z.hide()
 	hlavni_text_S.hide()
-	button_zpet.hide()
+	button_zpet.show()
 	button_info.hide()
 	button_service.hide()
 def Policko5():
@@ -233,7 +244,7 @@ def Policko5():
 	upozorneni.hide()
 	hlavni_text_Z.hide()
 	hlavni_text_S.hide()
-	button_zpet.hide()
+	button_zpet.show()
 	button_info.hide()
 	button_service.hide()
 def Policko4():
@@ -249,7 +260,7 @@ def Policko4():
 	upozorneni.hide()
 	hlavni_text_Z.hide()
 	hlavni_text_S.hide()
-	button_zpet.hide()
+	button_zpet.show()
 	button_info.hide()
 	button_service.hide()
 def Policko3():
@@ -265,7 +276,7 @@ def Policko3():
 	upozorneni.hide()
 	hlavni_text_Z.hide()
 	hlavni_text_S.hide()
-	button_zpet.hide()
+	button_zpet.show()
 	button_info.hide()
 	button_service.hide()
 def Policko2():
@@ -281,7 +292,7 @@ def Policko2():
 	upozorneni.hide()
 	hlavni_text_Z.hide()
 	hlavni_text_S.hide()
-	button_zpet.hide()
+	button_zpet.show()
 	button_info.hide()
 	button_service.hide()
 def Policko1():
@@ -297,7 +308,7 @@ def Policko1():
 	upozorneni.hide()
 	hlavni_text_Z.hide()
 	hlavni_text_S.hide()
-	button_zpet.hide()
+	button_zpet.show()
 	button_info.hide()
 	button_service.hide()
 def Policko0():
@@ -313,7 +324,7 @@ def Policko0():
 	upozorneni.hide()
 	hlavni_text_Z.hide()
 	hlavni_text_S.hide()
-	button_zpet.hide()
+	button_zpet.show()
 	button_info.hide()
 	button_service.hide()
 
@@ -348,6 +359,7 @@ regal2 = Box(Vyskladnit_menu, width = "400",layout="grid", align = "top", border
 def Policko9():
 	print("požadavek na polohu 9")  
 	print("čeká na info OK od Arduina") 
+	ser.write(b'G2 P9 Z2')     # write a string
 	Pracovni_menu.show()
 	Hlavni_stranka.hide()
 	Servisni_menu.hide()
@@ -358,7 +370,7 @@ def Policko9():
 	upozorneni.hide()
 	hlavni_text_Z.hide()
 	hlavni_text_S.hide()
-	button_zpet.hide()
+	button_zpet.show()
 	button_info.hide()
 	button_service.hide()
 def Policko8():
@@ -374,7 +386,7 @@ def Policko8():
 	upozorneni.hide()
 	hlavni_text_Z.hide()
 	hlavni_text_S.hide()
-	button_zpet.hide()
+	button_zpet.show()
 	button_info.hide()
 	button_service.hide()
 def Policko7():
@@ -390,7 +402,7 @@ def Policko7():
 	upozorneni.hide()
 	hlavni_text_Z.hide()
 	hlavni_text_S.hide()
-	button_zpet.hide()
+	button_zpet.show()
 	button_info.hide()
 	button_service.hide()
 def Policko6():
@@ -406,7 +418,7 @@ def Policko6():
 	upozorneni.hide()
 	hlavni_text_Z.hide()
 	hlavni_text_S.hide()
-	button_zpet.hide()
+	button_zpet.show()
 	button_info.hide()
 	button_service.hide()
 def Policko5():
@@ -422,7 +434,7 @@ def Policko5():
 	upozorneni.hide()
 	hlavni_text_Z.hide()
 	hlavni_text_S.hide()
-	button_zpet.hide()
+	button_zpet.show()
 	button_info.hide()
 	button_service.hide()
 def Policko4():
@@ -438,7 +450,7 @@ def Policko4():
 	upozorneni.hide()
 	hlavni_text_Z.hide()
 	hlavni_text_S.hide()
-	button_zpet.hide()
+	button_zpet.show()
 	button_info.hide()
 	button_service.hide()
 def Policko3():
@@ -454,7 +466,7 @@ def Policko3():
 	upozorneni.hide()
 	hlavni_text_Z.hide()
 	hlavni_text_S.hide()
-	button_zpet.hide()
+	button_zpet.show()
 	button_info.hide()
 	button_service.hide()
 def Policko2():
@@ -470,7 +482,7 @@ def Policko2():
 	upozorneni.hide()
 	hlavni_text_Z.hide()
 	hlavni_text_S.hide()
-	button_zpet.hide()
+	button_zpet.show()
 	button_info.hide()
 	button_service.hide()
 def Policko1():
@@ -486,7 +498,7 @@ def Policko1():
 	upozorneni.hide()
 	hlavni_text_Z.hide()
 	hlavni_text_S.hide()
-	button_zpet.hide()
+	button_zpet.show()
 	button_info.hide()
 	button_service.hide()
 def Policko0():
@@ -502,7 +514,7 @@ def Policko0():
 	upozorneni.hide()
 	hlavni_text_Z.hide()
 	hlavni_text_S.hide()
-	button_zpet.hide()
+	button_zpet.show()
 	button_info.hide()
 	button_service.hide()
 
@@ -610,8 +622,11 @@ Error_okno = Window(app, title = "UPOZORNĚNÍ", height=300, width=650)
 Error_okno.bg = "red"
 text_error1 = Text(Error_okno, text = "Upozornění !!!")
 text_error1.size = 50
-text_error2 = Text(Error_okno, text = "Systém zaznamenal chybu. Příkaz, který požadujete se nevykonal správně. Zkontrolujte napájení Arduina.")
+text_error2 = Text(Error_okno, text = "Systém zaznamenal chybu. Příkaz, který požadujete se nevykonal správně.")
 text_error2.size = 15
+text_error3 = Text(Error_okno, text = "Zkontrolujte napájení Arduina.")
+text_error3.size = 15
+
 Error_okno.hide()
 
 #_________________________________________________________________________________________________
@@ -655,5 +670,5 @@ info_text6.size = velikost_pisma_info
 
 
 
-
+ser.close()
 app.display ()
