@@ -230,6 +230,9 @@ void zpracovaniPrikazu() {
     case 108:
       analogWrite(8, ziskejCislo('S', 0));
       break;
+    case 109:
+      analogWrite(9, ziskejCislo('S', 0));
+      break;
     case 110:
       analogWrite(10, ziskejCislo('S', 0));
       break;
