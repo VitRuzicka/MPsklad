@@ -9,7 +9,7 @@
   |                |               |                |                |              |
   |                |               |                |                |              |
   |                |               |                |                |              |
-  |        9       |       8       |        7       |        6       |      5       |
+  |        2       |       3       |        4       |        5       |      6       |
   |                |               |                |                |              |
   |                |               |                |                |              |
   |                |               |                |                |              |
@@ -17,7 +17,7 @@
   |                |               |                |                |              |
   |                |               |                |                |              |
   |                |               |                |                |              |
-  |       4        |       3       |       2        |       1        |       0      |
+  |       7        |       8       |       9        |       10       |       11     |
   |                |               |                |                |              |
   |                |               |                |                |              |
   |                |               |                |                |              |
@@ -283,6 +283,7 @@ void movePole(int pozice, byte naskladnit) {
     homeX();
 
   }
+  if(pozice >= 2 && pozice <= 11){
   if(naskladnit == 1){   //funkce pro naskladnění
     while(digitalRead(X_MAX_PIN)){ //pokud neni sepnut koncak na nakladaci plose
     if(Serial.available()){
@@ -356,6 +357,8 @@ void movePole(int pozice, byte naskladnit) {
   else{
     //spatna hodnota (nebude delat nic)
   }
+    else{
+      //spatne pole, nebude nic delat
 }
 
 
