@@ -7,12 +7,14 @@ app.bg = "#ff4d06"
 
 
 
-
-ser = serial.Serial('/dev/ttyUSB0', 115200) # open serial port
+ser = serial.Serial('/dev/ttyACM0', 115200) # open serial port
+if(ser.is_open):
+	print("Spravny port")
 print(ser.name)         # check which port was really used
 
 
-pole = [0,0,0,0,0,0,0,0,0,0]
+ser.write(b'M110 S70\n')
+ser.write(b'M109 S190\n')
 
 #Zde jdu kontrolovat napájení arduina. Pokud nebude arduino napájené, tak vyskočí error okno na panelu.
 arduino = Button(17)
@@ -83,6 +85,7 @@ def Service():
 	Servisni_menu.show()
 	Kontrolni_okno.show()
 	Info_menu.hide()
+	Pracovni_menu.hide()
 
 	upozorneni.show()
 	hlavni_text_Z.hide()
@@ -101,6 +104,7 @@ def Zpet(): #Také jako hlavní stránka - default
 	Vyskladnit_menu.hide()
 	Zaskladnit_menu.hide()
 	Info_menu.hide()
+	Pracovni_menu.hide()
 
 
 	upozorneni.hide()
@@ -117,6 +121,7 @@ def Info():
 	Vyskladnit_menu.hide()
 	Zaskladnit_menu.hide()
 	Info_menu.show()
+	Pracovni_menu.hide()
 
 
 	upozorneni.hide()
@@ -183,6 +188,7 @@ def Policko9():
 	button_zpet.show()
 	button_info.hide()
 	button_service.hide()
+	ser.write(b'G2 P2 Z1\n')
 def Policko8():
 	print("požadavek na polohu 8")  
 	print("čeká na info OK od Arduina") 
@@ -199,6 +205,7 @@ def Policko8():
 	button_zpet.show()
 	button_info.hide()
 	button_service.hide()
+	ser.write(b'G2 P3 Z1\n')
 def Policko7():
 	print("požadavek na polohu 7")  
 	print("čeká na info OK od Arduina") 
@@ -215,6 +222,7 @@ def Policko7():
 	button_zpet.show()
 	button_info.hide()
 	button_service.hide()
+	ser.write(b'G2 P4 Z1\n')
 def Policko6():
 	print("požadavek na polohu 6")  
 	print("čeká na info OK od Arduina") 
@@ -231,6 +239,7 @@ def Policko6():
 	button_zpet.show()
 	button_info.hide()
 	button_service.hide()
+	ser.write(b'G2 P5 Z1\n')
 def Policko5():
 	print("požadavek na polohu 5")  
 	print("čeká na info OK od Arduina") 
@@ -247,6 +256,7 @@ def Policko5():
 	button_zpet.show()
 	button_info.hide()
 	button_service.hide()
+	ser.write(b'G2 P6 Z1\n')
 def Policko4():
 	print("požadavek na polohu 4")  
 	print("čeká na info OK od Arduina") 
@@ -263,6 +273,7 @@ def Policko4():
 	button_zpet.show()
 	button_info.hide()
 	button_service.hide()
+	ser.write(b'G2 P7 Z1\n')
 def Policko3():
 	print("požadavek na polohu 3")  
 	print("čeká na info OK od Arduina") 
@@ -279,6 +290,7 @@ def Policko3():
 	button_zpet.show()
 	button_info.hide()
 	button_service.hide()
+	ser.write(b'G2 P8 Z1\n')
 def Policko2():
 	print("požadavek na polohu 2")  
 	print("čeká na info OK od Arduina") 
@@ -295,6 +307,7 @@ def Policko2():
 	button_zpet.show()
 	button_info.hide()
 	button_service.hide()
+	ser.write(b'G2 P9 Z1\n')
 def Policko1():
 	print("požadavek na polohu 1")  
 	print("čeká na info OK od Arduina") 
@@ -311,6 +324,7 @@ def Policko1():
 	button_zpet.show()
 	button_info.hide()
 	button_service.hide()
+	ser.write(b'G2 P10 Z1\n')
 def Policko0():
 	print("požadavek na polohu 0")  
 	print("čeká na info OK od Arduina") 
@@ -327,6 +341,7 @@ def Policko0():
 	button_zpet.show()
 	button_info.hide()
 	button_service.hide()
+	ser.write(b'G2 P11 Z1\n')
 
 hlavni_text_Z = Text(zahlaví, "Vyberte pozici")
 hlavni_text_Z.text_size = 55
@@ -359,7 +374,7 @@ regal2 = Box(Vyskladnit_menu, width = "400",layout="grid", align = "top", border
 def Policko9():
 	print("požadavek na polohu 9")  
 	print("čeká na info OK od Arduina") 
-	ser.write(b'G2 P9 Z2')     # write a string
+	ser.write(b'G2 P2 Z2\n')     # write a string
 	Pracovni_menu.show()
 	Hlavni_stranka.hide()
 	Servisni_menu.hide()
@@ -375,7 +390,8 @@ def Policko9():
 	button_service.hide()
 def Policko8():
 	print("požadavek na polohu 8")  
-	print("čeká na info OK od Arduina") 
+	print("čeká na info OK od Arduina")
+	ser.write(b'G2 P3 Z2\n')     # write a string
 	Pracovni_menu.show()
 	Hlavni_stranka.hide()
 	Servisni_menu.hide()
@@ -391,7 +407,8 @@ def Policko8():
 	button_service.hide()
 def Policko7():
 	print("požadavek na polohu 7")  
-	print("čeká na info OK od Arduina") 
+	print("čeká na info OK od Arduina")
+	ser.write(b'G2 P4 Z2\n')     # write a string
 	Pracovni_menu.show()
 	Hlavni_stranka.hide()
 	Servisni_menu.hide()
@@ -407,7 +424,8 @@ def Policko7():
 	button_service.hide()
 def Policko6():
 	print("požadavek na polohu 6")  
-	print("čeká na info OK od Arduina") 
+	print("čeká na info OK od Arduina")
+	ser.write(b'G2 P5 Z2\n')     # write a string
 	Pracovni_menu.show()
 	Hlavni_stranka.hide()
 	Servisni_menu.hide()
@@ -423,7 +441,8 @@ def Policko6():
 	button_service.hide()
 def Policko5():
 	print("požadavek na polohu 5")  
-	print("čeká na info OK od Arduina") 
+	print("čeká na info OK od Arduina")
+	ser.write(b'G2 P6 Z2\n')     # write a string
 	Pracovni_menu.show()
 	Hlavni_stranka.hide()
 	Servisni_menu.hide()
@@ -439,7 +458,8 @@ def Policko5():
 	button_service.hide()
 def Policko4():
 	print("požadavek na polohu 4")  
-	print("čeká na info OK od Arduina") 
+	print("čeká na info OK od Arduina")
+	ser.write(b'G2 P7 Z2\n')     # write a string
 	Pracovni_menu.show()
 	Hlavni_stranka.hide()
 	Servisni_menu.hide()
@@ -455,7 +475,8 @@ def Policko4():
 	button_service.hide()
 def Policko3():
 	print("požadavek na polohu 3")  
-	print("čeká na info OK od Arduina") 
+	print("čeká na info OK od Arduina")
+	ser.write(b'G2 P8 Z2\n')     # write a string
 	Pracovni_menu.show()
 	Hlavni_stranka.hide()
 	Servisni_menu.hide()
@@ -471,7 +492,8 @@ def Policko3():
 	button_service.hide()
 def Policko2():
 	print("požadavek na polohu 2")  
-	print("čeká na info OK od Arduina") 
+	print("čeká na info OK od Arduina")
+	ser.write(b'G2 P9 Z2\n')     # write a string
 	Pracovni_menu.show()
 	Hlavni_stranka.hide()
 	Servisni_menu.hide()
@@ -487,7 +509,8 @@ def Policko2():
 	button_service.hide()
 def Policko1():
 	print("požadavek na polohu 1")  
-	print("čeká na info OK od Arduina") 
+	print("čeká na info OK od Arduina")
+	ser.write(b'G2 P10 Z2\n')     # write a string
 	Pracovni_menu.show()
 	Hlavni_stranka.hide()
 	Servisni_menu.hide()
@@ -503,7 +526,8 @@ def Policko1():
 	button_service.hide()
 def Policko0():
 	print("požadavek na polohu 0")  
-	print("čeká na info OK od Arduina") 
+	print("čeká na info OK od Arduina")
+	ser.write(b'G2 P11 Z2\n')     # write a string
 	Pracovni_menu.show()
 	Hlavni_stranka.hide()
 	Servisni_menu.hide()
@@ -558,16 +582,34 @@ Kontrolni_okno.hide()
 
 def X_plusa():
 	print("X +" + vyber_vzdalenosti.value)
+	ser.write(b'G0 X10\n')
+	#ser.write(vyber_vzdalenosti.value)
+	#ser.write(b'\n')
 def X_minusa():
 	print("X -" + vyber_vzdalenosti.value)
+	ser.write(b'G0 X-10\n')
+	#ser.write(vyber_vzdalenosti.value)
+	#ser.write(b'\n')
 def Y_plusa():
 	print("Y +" + vyber_vzdalenosti.value)
+	#ser.write(b'G0 Y')
+	#ser.write(vyber_vzdalenosti.value)
+	#ser.write(b'\n')
 def Y_minusa():
 	print("Y -" + vyber_vzdalenosti.value)
+	#ser.write(b'G0 Y-')
+	#ser.write(vyber_vzdalenosti.value)
+	#ser.write(b'\n')
 def Z_plusa():
 	print("Z +" + vyber_vzdalenosti.value)
+	#ser.write(b'G0 Z')
+	#ser.write(vyber_vzdalenosti.value)
+	#ser.write(b'\n')
 def Z_minusa():
 	print("Z -" + vyber_vzdalenosti.value)
+	#ser.write(b'G0 Z-')
+	#ser.write(vyber_vzdalenosti.value)
+	#ser.write(b'\n')
 
 
 hlavni_text_S = Text(zahlaví, "Nacházíte se v servisním módu")
@@ -670,5 +712,5 @@ info_text6.size = velikost_pisma_info
 
 
 
-ser.close()
+
 app.display ()
