@@ -1,21 +1,14 @@
 
 from guizero import *
 from gpiozero import Button
+import serial.tools.list_ports
 import serial
+import sys
+import time
 app = App (height=480, width=800)
 app.bg = "#ff4d06"
-
-
-
-ser = serial.Serial('/dev/ttyACM0', 115200) # open serial port
-if(ser.is_open):
-	print("Spravny port")
-print(ser.name)         # check which port was really used
-
-
-ser.write(b'M110 S70\n')
-ser.write(b'M109 S190\n')
-
+global pole
+pole = [0,0,0,0,0,0,0,0,0,0]
 #Zde jdu kontrolovat napájení arduina. Pokud nebude arduino napájené, tak vyskočí error okno na panelu.
 arduino = Button(17)
 
@@ -23,10 +16,33 @@ def service():
 	if arduino.is_pressed:
 		print("Arduino je bez napájení")
 		Error_okno.show()
+		time.sleep(5)
+		sys.exit()
+		
 	else:
 		print("Aruino je napájené")
 		Error_okno.hide()
 	print("Potřebuju opravit")
+
+
+
+ports = serial.tools.list_ports.comports() #otevreni serioveho portu
+for k in ports:
+	if 'ACM' in k.device:
+		print("pripojuji k ")
+		print(k.device)
+		ser = serial.Serial(k.device, 115200)
+		if(ser.is_open):		
+			print("pripojeno")
+		else:
+			print(nepripojeno)
+			sys.exit()
+
+
+
+
+ser.write(b'M110 S70\n')
+ser.write(b'M109 S190\n')
 
 
 def Naskladnit():
@@ -188,7 +204,9 @@ def Policko9():
 	button_zpet.show()
 	button_info.hide()
 	button_service.hide()
-	ser.write(b'G2 P2 Z1\n')
+	if(pole[0]):
+		#policko neobsazene
+		ser.write(b'G2 P2 Z1\n')
 def Policko8():
 	print("požadavek na polohu 8")  
 	print("čeká na info OK od Arduina") 
@@ -205,7 +223,8 @@ def Policko8():
 	button_zpet.show()
 	button_info.hide()
 	button_service.hide()
-	ser.write(b'G2 P3 Z1\n')
+	if(pole[1]):
+		ser.write(b'G2 P3 Z1\n')
 def Policko7():
 	print("požadavek na polohu 7")  
 	print("čeká na info OK od Arduina") 
@@ -222,7 +241,8 @@ def Policko7():
 	button_zpet.show()
 	button_info.hide()
 	button_service.hide()
-	ser.write(b'G2 P4 Z1\n')
+	if(pole[2]):
+		ser.write(b'G2 P4 Z1\n')
 def Policko6():
 	print("požadavek na polohu 6")  
 	print("čeká na info OK od Arduina") 
@@ -239,7 +259,8 @@ def Policko6():
 	button_zpet.show()
 	button_info.hide()
 	button_service.hide()
-	ser.write(b'G2 P5 Z1\n')
+	if(pole[3]):
+		ser.write(b'G2 P5 Z1\n')
 def Policko5():
 	print("požadavek na polohu 5")  
 	print("čeká na info OK od Arduina") 
@@ -256,7 +277,8 @@ def Policko5():
 	button_zpet.show()
 	button_info.hide()
 	button_service.hide()
-	ser.write(b'G2 P6 Z1\n')
+	if(pole[4]):
+		ser.write(b'G2 P6 Z1\n')
 def Policko4():
 	print("požadavek na polohu 4")  
 	print("čeká na info OK od Arduina") 
@@ -273,7 +295,8 @@ def Policko4():
 	button_zpet.show()
 	button_info.hide()
 	button_service.hide()
-	ser.write(b'G2 P7 Z1\n')
+	if(pole[5]):
+		ser.write(b'G2 P7 Z1\n')
 def Policko3():
 	print("požadavek na polohu 3")  
 	print("čeká na info OK od Arduina") 
@@ -290,7 +313,8 @@ def Policko3():
 	button_zpet.show()
 	button_info.hide()
 	button_service.hide()
-	ser.write(b'G2 P8 Z1\n')
+	if(pole[6]):
+		ser.write(b'G2 P8 Z1\n')
 def Policko2():
 	print("požadavek na polohu 2")  
 	print("čeká na info OK od Arduina") 
@@ -307,7 +331,8 @@ def Policko2():
 	button_zpet.show()
 	button_info.hide()
 	button_service.hide()
-	ser.write(b'G2 P9 Z1\n')
+	if(pole[7]):
+		ser.write(b'G2 P9 Z1\n')
 def Policko1():
 	print("požadavek na polohu 1")  
 	print("čeká na info OK od Arduina") 
@@ -324,7 +349,8 @@ def Policko1():
 	button_zpet.show()
 	button_info.hide()
 	button_service.hide()
-	ser.write(b'G2 P10 Z1\n')
+	if(pole[8]):
+		ser.write(b'G2 P10 Z1\n')
 def Policko0():
 	print("požadavek na polohu 0")  
 	print("čeká na info OK od Arduina") 
@@ -341,7 +367,8 @@ def Policko0():
 	button_zpet.show()
 	button_info.hide()
 	button_service.hide()
-	ser.write(b'G2 P11 Z1\n')
+	if(pole[9]):
+		ser.write(b'G2 P11 Z1\n')
 
 hlavni_text_Z = Text(zahlaví, "Vyberte pozici")
 hlavni_text_Z.text_size = 55
@@ -374,7 +401,8 @@ regal2 = Box(Vyskladnit_menu, width = "400",layout="grid", align = "top", border
 def Policko9():
 	print("požadavek na polohu 9")  
 	print("čeká na info OK od Arduina") 
-	ser.write(b'G2 P2 Z2\n')     # write a string
+	if not (pole[0]):
+		ser.write(b'G2 P2 Z2\n')
 	Pracovni_menu.show()
 	Hlavni_stranka.hide()
 	Servisni_menu.hide()
@@ -391,7 +419,8 @@ def Policko9():
 def Policko8():
 	print("požadavek na polohu 8")  
 	print("čeká na info OK od Arduina")
-	ser.write(b'G2 P3 Z2\n')     # write a string
+	if not pole[1]:
+		ser.write(b'G2 P3 Z2\n')
 	Pracovni_menu.show()
 	Hlavni_stranka.hide()
 	Servisni_menu.hide()
@@ -408,7 +437,8 @@ def Policko8():
 def Policko7():
 	print("požadavek na polohu 7")  
 	print("čeká na info OK od Arduina")
-	ser.write(b'G2 P4 Z2\n')     # write a string
+	if not pole[2]:
+		ser.write(b'G2 P4 Z2\n')
 	Pracovni_menu.show()
 	Hlavni_stranka.hide()
 	Servisni_menu.hide()
@@ -425,7 +455,8 @@ def Policko7():
 def Policko6():
 	print("požadavek na polohu 6")  
 	print("čeká na info OK od Arduina")
-	ser.write(b'G2 P5 Z2\n')     # write a string
+	if not pole[3]:
+		ser.write(b'G2 P5 Z2\n')
 	Pracovni_menu.show()
 	Hlavni_stranka.hide()
 	Servisni_menu.hide()
@@ -442,7 +473,8 @@ def Policko6():
 def Policko5():
 	print("požadavek na polohu 5")  
 	print("čeká na info OK od Arduina")
-	ser.write(b'G2 P6 Z2\n')     # write a string
+	if not pole[4]:
+		ser.write(b'G2 P6 Z2\n')
 	Pracovni_menu.show()
 	Hlavni_stranka.hide()
 	Servisni_menu.hide()
@@ -459,7 +491,8 @@ def Policko5():
 def Policko4():
 	print("požadavek na polohu 4")  
 	print("čeká na info OK od Arduina")
-	ser.write(b'G2 P7 Z2\n')     # write a string
+	if not pole[5]:
+		ser.write(b'G2 P7 Z2\n')  
 	Pracovni_menu.show()
 	Hlavni_stranka.hide()
 	Servisni_menu.hide()
@@ -476,7 +509,8 @@ def Policko4():
 def Policko3():
 	print("požadavek na polohu 3")  
 	print("čeká na info OK od Arduina")
-	ser.write(b'G2 P8 Z2\n')     # write a string
+	if not pole[6]:
+		ser.write(b'G2 P8 Z2\n')  
 	Pracovni_menu.show()
 	Hlavni_stranka.hide()
 	Servisni_menu.hide()
@@ -493,7 +527,8 @@ def Policko3():
 def Policko2():
 	print("požadavek na polohu 2")  
 	print("čeká na info OK od Arduina")
-	ser.write(b'G2 P9 Z2\n')     # write a string
+	if not pole[7]:
+		ser.write(b'G2 P9 Z2\n') 
 	Pracovni_menu.show()
 	Hlavni_stranka.hide()
 	Servisni_menu.hide()
@@ -510,7 +545,8 @@ def Policko2():
 def Policko1():
 	print("požadavek na polohu 1")  
 	print("čeká na info OK od Arduina")
-	ser.write(b'G2 P10 Z2\n')     # write a string
+	if not pole[8]:
+		ser.write(b'G2 P10 Z2\n')  
 	Pracovni_menu.show()
 	Hlavni_stranka.hide()
 	Servisni_menu.hide()
@@ -527,7 +563,8 @@ def Policko1():
 def Policko0():
 	print("požadavek na polohu 0")  
 	print("čeká na info OK od Arduina")
-	ser.write(b'G2 P11 Z2\n')     # write a string
+	if not pole[9]:
+		ser.write(b'G2 P11 Z2\n')   
 	Pracovni_menu.show()
 	Hlavni_stranka.hide()
 	Servisni_menu.hide()
