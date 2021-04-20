@@ -38,7 +38,7 @@
 
 
 long delkaX = 1250;  //nastaveni delky osy v mm
-long delkaY = 190;
+long delkaY = 195;
 long delkaZ = 180;
 
 #define stoupaniX 4   //mm na milimetr
@@ -51,9 +51,9 @@ long delkaZ = 180;
 
 #define nabiraciOffset 8
 //čislo pozice nakládací plochy
-int poziceX[] = {213,50,  1210, 1005, 810, 613, 415, 1200, 1005, 810, 613, 420   };  //10 pozic + dvě pro nakládání a skládání, nakl. vykl, 2 pozice
+int poziceX[] = {236,90,  1210, 1025, 820, 623, 425, 1210, 1025, 820, 630, 435   };  //10 pozic + dvě pro nakládání a skládání, nakl. vykl, 2 pozice
 int poziceZ[] = {1, 3,     169, 169,  169, 169, 169,  39,  39,   39,   39,  39   };  //10 pozic
-int poziceY[] = {0, 185,165, 167 };  //hloubka skladu, naložení skladu,  pozice: 0-pohybova pozice; 1-sklad; 2-nakladaci policko, 3- vykladaci policko
+int poziceY[] = {0, 190,175, 175 };  //hloubka skladu, naložení skladu,  pozice: 0-pohybova pozice; 1-sklad; 2-nakladaci policko, 3- vykladaci policko
 
 
 int nX = 0;          //nakladaci pozice  UPRAVIT
@@ -128,6 +128,7 @@ void setup() {
   pinMode(Y_MIN_PIN, INPUT);
   pinMode(Z_MIN_PIN, INPUT);
   Serial.begin(115200);
+  analogWrite(8, 255);
 
     lcd.init();
   lcd.backlight();
