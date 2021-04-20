@@ -34,7 +34,7 @@
 #define akcelerace 1500  //výchozí akcelerace a rychlost pro celý systém
 #define rychlost 700
 #define uvolneniStopu 30 ///vzdálenost , kterou ujede aby neležel na endstopu
-#define diag             //vypisuje diagnosticke zpravy do serioveho monitoru
+//#define diag             //vypisuje diagnosticke zpravy do serioveho monitoru
 
 
 long delkaX = 1250;  //nastaveni delky osy v mm
@@ -355,12 +355,13 @@ void movePole(int pozice, byte naskladnit) {
     
   }
   else{
-    //spatna hodnota (nebude delat nic)
+    //spatna hodnota (nebude nakladat ani vykladat)
+  }
   }
     else{
       //spatne pole, nebude nic delat
 }
-
+  }
 
 
 /////////////////////////////////////// OSA X /////////////////////////////////
