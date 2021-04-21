@@ -12,9 +12,25 @@ pole = [0,0,0,0,0,0,0,0,0,0]
 #Zde jdu kontrolovat napájení arduina. Pokud nebude arduino napájené, tak vyskočí error okno na panelu.
 arduino = Button(17)
 
+
+ports = serial.tools.list_ports.comports() #otevreni serioveho portu
+for k in ports:
+	if 'ACM' in k.device:
+		print("pripojuji k ")
+		print(k.device)
+		ser = serial.Serial(k.device, 115200, timeout=5)
+		if(ser.is_open):		
+			print("pripojeno")
+			ser.write(b'M110 S70\n')
+			ser.write(b'M109 S190\n')
+		else:
+			print(nepripojeno)
+			sys.exit()
+
+
 def service():
 	if arduino.is_pressed:
-		print("Arduino je bez napájení")
+		print("Arduino je bez napajeni")
 		Error_okno.show()
 		time.sleep(5)
 		sys.exit()
@@ -25,24 +41,6 @@ def service():
 	print("Potřebuju opravit")
 
 
-
-ports = serial.tools.list_ports.comports() #otevreni serioveho portu
-for k in ports:
-	if 'ACM' in k.device:
-		print("pripojuji k ")
-		print(k.device)
-		ser = serial.Serial(k.device, 115200, timeout=5)
-		if(ser.is_open):		
-			print("pripojeno")
-		else:
-			print(nepripojeno)
-			sys.exit()
-
-
-
-
-ser.write(b'M110 S70\n')
-ser.write(b'M109 S190\n')
 
 
 def Naskladnit():
@@ -85,7 +83,7 @@ def Vyskladnit():
 		Vyskladnit_menu.show()
 
 		upozorneni.hide()
-		hlavni_text_Z.hide()
+		hlavni_text_Z.show()
 		hlavni_text_S.hide()
 		button_zpet.show()
 		button_info.hide()
@@ -101,7 +99,6 @@ def Service():
 	Servisni_menu.show()
 	Kontrolni_okno.show()
 	Info_menu.hide()
-	Pracovni_menu.hide()
 
 	upozorneni.show()
 	hlavni_text_Z.hide()
@@ -120,7 +117,6 @@ def Zpet(): #Také jako hlavní stránka - default
 	Vyskladnit_menu.hide()
 	Zaskladnit_menu.hide()
 	Info_menu.hide()
-	Pracovni_menu.hide()
 
 
 	upozorneni.hide()
@@ -137,7 +133,6 @@ def Info():
 	Vyskladnit_menu.hide()
 	Zaskladnit_menu.hide()
 	Info_menu.show()
-	Pracovni_menu.hide()
 
 
 	upozorneni.hide()
@@ -191,195 +186,185 @@ regal = Box(Zaskladnit_menu, width = "400",layout="grid", align = "top", border 
 def Policko9():
 	print("požadavek na polohu 9")  
 	print("čeká na info OK od Arduina") 
-	Pracovni_menu.show()
 	Hlavni_stranka.hide()
 	Servisni_menu.hide()
 	Vyskladnit_menu.hide()
-	Zaskladnit_menu.hide()
+	Zaskladnit_menu.show()
 	Info_menu.hide()
 
 	upozorneni.hide()
-	hlavni_text_Z.hide()
+	hlavni_text_Z.show()
 	hlavni_text_S.hide()
 	button_zpet.show()
 	button_info.hide()
 	button_service.hide()
-	if(pole[0]):
+	if not(pole[0]):
 		#policko neobsazene
 		ser.write(b'G2 P2 Z1\n')
 		pole[0] = 1
-		line = ser.readline()
-		if OK in line:
-			Pracovni_menu.hide()
 def Policko8():
 	print("požadavek na polohu 8")  
 	print("čeká na info OK od Arduina") 
-	Pracovni_menu.show()
 	Hlavni_stranka.hide()
 	Servisni_menu.hide()
 	Vyskladnit_menu.hide()
-	Zaskladnit_menu.hide()
+	Zaskladnit_menu.show()
 	Info_menu.hide()
 
 	upozorneni.hide()
-	hlavni_text_Z.hide()
+	hlavni_text_Z.show()
 	hlavni_text_S.hide()
 	button_zpet.show()
 	button_info.hide()
 	button_service.hide()
-	if(pole[1]):
+	if not(pole[1]):
 		ser.write(b'G2 P3 Z1\n')
 		pole[1] = 1
+		for l in ser.readline():
+			line = ser.readline()
+			print(line)
 def Policko7():
 	print("požadavek na polohu 7")  
 	print("čeká na info OK od Arduina") 
-	Pracovni_menu.show()
 	Hlavni_stranka.hide()
 	Servisni_menu.hide()
 	Vyskladnit_menu.hide()
-	Zaskladnit_menu.hide()
+	Zaskladnit_menu.show()
 	Info_menu.hide()
 
 	upozorneni.hide()
-	hlavni_text_Z.hide()
+	hlavni_text_Z.show()
 	hlavni_text_S.hide()
 	button_zpet.show()
 	button_info.hide()
 	button_service.hide()
-	if(pole[2]):
+	if not (pole[2]):
 		ser.write(b'G2 P4 Z1\n')
 		pole[2] = 1
 def Policko6():
 	print("požadavek na polohu 6")  
 	print("čeká na info OK od Arduina") 
-	Pracovni_menu.show()
 	Hlavni_stranka.hide()
 	Servisni_menu.hide()
 	Vyskladnit_menu.hide()
-	Zaskladnit_menu.hide()
+	Zaskladnit_menu.show()
 	Info_menu.hide()
 
 	upozorneni.hide()
-	hlavni_text_Z.hide()
+	hlavni_text_Z.show()
 	hlavni_text_S.hide()
 	button_zpet.show()
 	button_info.hide()
 	button_service.hide()
-	if(pole[3]):
+	if not (pole[3]):
 		ser.write(b'G2 P5 Z1\n')
 		pole[3] = 1
 def Policko5():
 	print("požadavek na polohu 5")  
 	print("čeká na info OK od Arduina") 
-	Pracovni_menu.show()
 	Hlavni_stranka.hide()
 	Servisni_menu.hide()
 	Vyskladnit_menu.hide()
-	Zaskladnit_menu.hide()
+	Zaskladnit_menu.show()
 	Info_menu.hide()
 
 	upozorneni.hide()
-	hlavni_text_Z.hide()
+	hlavni_text_Z.show()
 	hlavni_text_S.hide()
 	button_zpet.show()
 	button_info.hide()
 	button_service.hide()
-	if(pole[4]):
+	if not (pole[4]):
 		ser.write(b'G2 P6 Z1\n')
 		pole[4] = 1
 def Policko4():
 	print("požadavek na polohu 4")  
 	print("čeká na info OK od Arduina") 
-	Pracovni_menu.show()
 	Hlavni_stranka.hide()
 	Servisni_menu.hide()
 	Vyskladnit_menu.hide()
-	Zaskladnit_menu.hide()
+	Zaskladnit_menu.show()
 	Info_menu.hide()
 
 	upozorneni.hide()
-	hlavni_text_Z.hide()
+	hlavni_text_Z.show()
 	hlavni_text_S.hide()
 	button_zpet.show()
 	button_info.hide()
 	button_service.hide()
-	if(pole[5]):
+	if not (pole[5]):
 		ser.write(b'G2 P7 Z1\n')
 		pole[5] = 1
 def Policko3():
 	print("požadavek na polohu 3")  
 	print("čeká na info OK od Arduina") 
-	Pracovni_menu.show()
 	Hlavni_stranka.hide()
 	Servisni_menu.hide()
 	Vyskladnit_menu.hide()
-	Zaskladnit_menu.hide()
+	Zaskladnit_menu.show()
 	Info_menu.hide()
 
 	upozorneni.hide()
-	hlavni_text_Z.hide()
+	hlavni_text_Z.show()
 	hlavni_text_S.hide()
 	button_zpet.show()
 	button_info.hide()
 	button_service.hide()
-	if(pole[6]):
+	if not (pole[6]):
 		ser.write(b'G2 P8 Z1\n')
 		pole[6] = 1
 def Policko2():
 	print("požadavek na polohu 2")  
 	print("čeká na info OK od Arduina") 
-	Pracovni_menu.show()
 	Hlavni_stranka.hide()
 	Servisni_menu.hide()
 	Vyskladnit_menu.hide()
-	Zaskladnit_menu.hide()
+	Zaskladnit_menu.show()
 	Info_menu.hide()
 
 	upozorneni.hide()
-	hlavni_text_Z.hide()
+	hlavni_text_Z.show()
 	hlavni_text_S.hide()
 	button_zpet.show()
 	button_info.hide()
 	button_service.hide()
-	if(pole[7]):
+	if not (pole[7]):
 		ser.write(b'G2 P9 Z1\n')
 		pole[7] = 1
 def Policko1():
 	print("požadavek na polohu 1")  
 	print("čeká na info OK od Arduina") 
-	Pracovni_menu.show()
 	Hlavni_stranka.hide()
 	Servisni_menu.hide()
 	Vyskladnit_menu.hide()
-	Zaskladnit_menu.hide()
+	Zaskladnit_menu.show()
 	Info_menu.hide()
 
 	upozorneni.hide()
-	hlavni_text_Z.hide()
+	hlavni_text_Z.show()
 	hlavni_text_S.hide()
 	button_zpet.show()
 	button_info.hide()
 	button_service.hide()
-	if(pole[8]):
+	if not (pole[8]):
 		ser.write(b'G2 P10 Z1\n')
 		pole[8] = 1
 def Policko0():
 	print("požadavek na polohu 0")  
 	print("čeká na info OK od Arduina") 
-	Pracovni_menu.show()
 	Hlavni_stranka.hide()
 	Servisni_menu.hide()
 	Vyskladnit_menu.hide()
-	Zaskladnit_menu.hide()
+	Zaskladnit_menu.show()
 	Info_menu.hide()
 
 	upozorneni.hide()
-	hlavni_text_Z.hide()
+	hlavni_text_Z.show()
 	hlavni_text_S.hide()
 	button_zpet.show()
 	button_info.hide()
 	button_service.hide()
-	if(pole[9]):
+	if not (pole[9]):
 		ser.write(b'G2 P11 Z1\n')
 		pole[9] = 1
 
@@ -414,40 +399,37 @@ regal2 = Box(Vyskladnit_menu, width = "400",layout="grid", align = "top", border
 def Policko9():
 	print("požadavek na polohu 9")  
 	print("čeká na info OK od Arduina") 
-	Pracovni_menu.show()
 	Hlavni_stranka.hide()
 	Servisni_menu.hide()
-	Vyskladnit_menu.hide()
+	Vyskladnit_menu.show()
 	Zaskladnit_menu.hide()
 	Info_menu.hide()
 
 	upozorneni.hide()
-	hlavni_text_Z.hide()
+	hlavni_text_Z.show()
 	hlavni_text_S.hide()
 	button_zpet.show()
 	button_info.hide()
 	button_service.hide()
-	if not (pole[0]):
+	if(pole[0]):
 		ser.write(b'G2 P2 Z2\n')
 		pole[0] = 0
 def Policko8():
 	print("požadavek na polohu 8")  
 	print("čeká na info OK od Arduina")
-
-	Pracovni_menu.show()
 	Hlavni_stranka.hide()
 	Servisni_menu.hide()
-	Vyskladnit_menu.hide()
+	Vyskladnit_menu.show()
 	Zaskladnit_menu.hide()
 	Info_menu.hide()
 
 	upozorneni.hide()
-	hlavni_text_Z.hide()
+	hlavni_text_Z.show()
 	hlavni_text_S.hide()
 	button_zpet.show()
 	button_info.hide()
 	button_service.hide()
-	if not pole[1]:
+	if pole[1]:
 		ser.write(b'G2 P3 Z2\n')
 		pole[1] = 0
 
@@ -455,20 +437,19 @@ def Policko7():
 	print("požadavek na polohu 7")  
 	print("čeká na info OK od Arduina")
 
-	Pracovni_menu.show()
 	Hlavni_stranka.hide()
 	Servisni_menu.hide()
-	Vyskladnit_menu.hide()
+	Vyskladnit_menu.show()
 	Zaskladnit_menu.hide()
 	Info_menu.hide()
 
 	upozorneni.hide()
-	hlavni_text_Z.hide()
+	hlavni_text_Z.show()
 	hlavni_text_S.hide()
 	button_zpet.show()
 	button_info.hide()
 	button_service.hide()
-	if not pole[2]:
+	if pole[2]:
 		ser.write(b'G2 P4 Z2\n')
 		pole[2] = 0
 
@@ -476,140 +457,133 @@ def Policko6():
 	print("požadavek na polohu 6")  
 	print("čeká na info OK od Arduina")
 
-	Pracovni_menu.show()
 	Hlavni_stranka.hide()
 	Servisni_menu.hide()
-	Vyskladnit_menu.hide()
+	Vyskladnit_menu.show()
 	Zaskladnit_menu.hide()
 	Info_menu.hide()
 
 	upozorneni.hide()
-	hlavni_text_Z.hide()
+	hlavni_text_Z.show()
 	hlavni_text_S.hide()
 	button_zpet.show()
 	button_info.hide()
 	button_service.hide()
-	if not pole[3]:
+	if pole[3]:
 		ser.write(b'G2 P5 Z2\n')
 		pole[3] = 0
 def Policko5():
 	print("požadavek na polohu 5")  
 	print("čeká na info OK od Arduina")
 
-	Pracovni_menu.show()
 	Hlavni_stranka.hide()
 	Servisni_menu.hide()
-	Vyskladnit_menu.hide()
+	Vyskladnit_menu.show()
 	Zaskladnit_menu.hide()
 	Info_menu.hide()
 
 	upozorneni.hide()
-	hlavni_text_Z.hide()
+	hlavni_text_Z.show()
 	hlavni_text_S.hide()
 	button_zpet.show()
 	button_info.hide()
 	button_service.hide()
-	if not pole[4]:
+	if pole[4]:
 		ser.write(b'G2 P6 Z2\n')
 		pole[4] = 0
 def Policko4():
 	print("požadavek na polohu 4")  
 	print("čeká na info OK od Arduina")
 
-	Pracovni_menu.show()
 	Hlavni_stranka.hide()
 	Servisni_menu.hide()
-	Vyskladnit_menu.hide()
+	Vyskladnit_menu.show()
 	Zaskladnit_menu.hide()
 	Info_menu.hide()
 
 	upozorneni.hide()
-	hlavni_text_Z.hide()
+	hlavni_text_Z.show()
 	hlavni_text_S.hide()
 	button_zpet.show()
 	button_info.hide()
 	button_service.hide()
-	if not pole[5]:
+	if pole[5]:
 		ser.write(b'G2 P7 Z2\n') 
 		pole[5] = 0 
 def Policko3():
 	print("požadavek na polohu 3")  
 	print("čeká na info OK od Arduina")
   
-	Pracovni_menu.show()
 	Hlavni_stranka.hide()
 	Servisni_menu.hide()
-	Vyskladnit_menu.hide()
+	Vyskladnit_menu.show()
 	Zaskladnit_menu.hide()
 	Info_menu.hide()
 
 	upozorneni.hide()
-	hlavni_text_Z.hide()
+	hlavni_text_Z.show()
 	hlavni_text_S.hide()
 	button_zpet.show()
 	button_info.hide()
 	button_service.hide()
-	if not pole[6]:
+	if pole[6]:
 		ser.write(b'G2 P8 Z2\n')
 		pole[6] = 0
 def Policko2():
 	print("požadavek na polohu 2")  
 	print("čeká na info OK od Arduina")
 
-	Pracovni_menu.show()
 	Hlavni_stranka.hide()
 	Servisni_menu.hide()
-	Vyskladnit_menu.hide()
+	Vyskladnit_menu.show()
 	Zaskladnit_menu.hide()
 	Info_menu.hide()
 
 	upozorneni.hide()
-	hlavni_text_Z.hide()
+	hlavni_text_Z.show()
 	hlavni_text_S.hide()
 	button_zpet.show()
 	button_info.hide()
 	button_service.hide()
-	if not pole[7]:
+	if pole[7]:
 		ser.write(b'G2 P9 Z2\n') 
 		pole[7] = 0
 def Policko1():
 	print("požadavek na polohu 1")  
 	print("čeká na info OK od Arduina")
  
-	Pracovni_menu.show()
 	Hlavni_stranka.hide()
 	Servisni_menu.hide()
-	Vyskladnit_menu.hide()
+	Vyskladnit_menu.show()
 	Zaskladnit_menu.hide()
 	Info_menu.hide()
 
 	upozorneni.hide()
-	hlavni_text_Z.hide()
+	hlavni_text_Z.show()
 	hlavni_text_S.hide()
 	button_zpet.show()
 	button_info.hide()
 	button_service.hide()
-	if not pole[8]:
+	if pole[8]:
 		ser.write(b'G2 P10 Z2\n')
 		pole[8] = 0 
 def Policko0():
 	print("požadavek na polohu 0")  
 	print("čeká na info OK od Arduina")
    
-	Pracovni_menu.show()
 	Hlavni_stranka.hide()
 	Servisni_menu.hide()
-	Vyskladnit_menu.hide()
+	Vyskladnit_menu.show()
 	Zaskladnit_menu.hide()
 	Info_menu.hide()
 
 	upozorneni.hide()
-	hlavni_text_Z.hide()
+	hlavni_text_Z.show()
 	hlavni_text_S.hide()
 	button_zpet.show()
 	button_info.hide()
 	button_service.hide()
-	if not pole[9]:
+	if pole[9]:
 		ser.write(b'G2 P11 Z2\n')
 		pole[9] = 0
 
@@ -619,18 +593,16 @@ hlavni_text_V.font = "Calibry"
 hlavni_text_V.hide()
 
 
-
-#Pokud není tlačítko zmáčknuté - zobrazí se toto
-Policko_9 = PushButton(regal2, Policko9, image = "pozice je prazdna.png", grid=[0,0])
-Policko_8 = PushButton(regal2, Policko8, image = "pozice je prazdna.png", grid=[1,0])
-Policko_7 = PushButton(regal2, Policko7, image = "pozice je prazdna.png", grid=[2,0])
-Policko_6 = PushButton(regal2, Policko6, image = "pozice je prazdna.png", grid=[3,0])
-Policko_5 = PushButton(regal2, Policko5, image = "pozice je prazdna.png", grid=[4,0])
-Policko_4 = PushButton(regal2, Policko4, image = "pozice je prazdna.png", grid=[0,1])
-Policko_3 = PushButton(regal2, Policko3, image = "pozice je prazdna.png", grid=[1,1])
-Policko_2 = PushButton(regal2, Policko2, image = "pozice je prazdna.png", grid=[2,1])
-Policko_1 = PushButton(regal2, Policko1, image = "pozice je prazdna.png", grid=[3,1])
-Policko_0 = PushButton(regal2, Policko0, image = "pozice je prazdna.png", grid=[4,1])
+Policko_9 = PushButton(regal2, Policko9, image = "logo_do_regalu.png", grid=[0,0])
+Policko_8 = PushButton(regal2, Policko8, image = "logo_do_regalu.png", grid=[1,0])
+Policko_7 = PushButton(regal2, Policko7, image = "logo_do_regalu.png", grid=[2,0])
+Policko_6 = PushButton(regal2, Policko6, image = "logo_do_regalu.png", grid=[3,0])
+Policko_5 = PushButton(regal2, Policko5, image = "logo_do_regalu.png", grid=[4,0])
+Policko_4 = PushButton(regal2, Policko4, image = "logo_do_regalu.png", grid=[0,1])
+Policko_3 = PushButton(regal2, Policko3, image = "logo_do_regalu.png", grid=[1,1])
+Policko_2 = PushButton(regal2, Policko2, image = "logo_do_regalu.png", grid=[2,1])
+Policko_1 = PushButton(regal2, Policko1, image = "logo_do_regalu.png", grid=[3,1])
+Policko_0 = PushButton(regal2, Policko0, image = "logo_do_regalu.png", grid=[4,1])
 
 #_____________________________________________________________________________________________________
 
@@ -715,16 +687,6 @@ Z_minus = PushButton(stred, Z_minusa, text = "Z minus", image = "Zminus.png", gr
 
 #_____________________________________________________________________________________________________
 
-#                           !!!Pracovní Menu!!!
-Pracovni_menu = Box(app, width = "fill")
-Pracovni_menu.hide()
-
-oznameni = Text(Pracovni_menu,"Probíhá vykonání požadavku.")
-oznameni.size = "40"
-oznameni.font = "Calibry"
-oznameni1 = Text(Pracovni_menu,"Vyčkejte.")
-oznameni1.size = "40"
-oznameni1.font = "Calibry"
 
 #                           !!!Error Menu!!!
 Error_menu = Box(app)
